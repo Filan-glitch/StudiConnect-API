@@ -3,9 +3,6 @@ logs
 *.log
 npm-debug.log*
 
-# tmp upload dir
-data/tmp/
-
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -33,3 +30,7 @@ typings/
 *.pem
 password.txt
 studiconnect-32c08-firebase-adminsdk-ryq7d-fc5c028cc6.json
+
+/data/tmp/*
+/data/profile-images/*
+!/data/profile-images/default.jpg

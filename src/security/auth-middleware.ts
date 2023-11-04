@@ -27,6 +27,5 @@ export default function authentication(
   //   res.status(401).clearCookie("session").send("Not logged in");
   //   return;
   // }
-
   req.next!();
 }

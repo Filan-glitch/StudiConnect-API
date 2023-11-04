@@ -76,11 +76,7 @@ const main = async () => {
     },
   });
 
-  // initialize routes
-  app.get("/health", (_, res) => {
-    res.sendStatus(200);
-  });
-
+  app.get("/health", routes.health);
   app.get("/api/profile/:uid/image", routes.getImage);
   app.post("/api/profile/image", upload.single("image"), routes.setImage);
   app.delete("/api/profile/image", routes.deleteImage);
