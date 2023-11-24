@@ -2,7 +2,6 @@ import "dotenv/config";
 
 import "reflect-metadata";
 import express from "express";
-import cors from "cors";
 import { cert, initializeApp } from "firebase-admin/app";
 import { Auth, getAuth } from "firebase-admin/auth";
 import { readFileSync } from "fs";
@@ -12,8 +11,8 @@ const cookieParser = require("cookie-parser");
 import routes from "./routes";
 import { RedisClientType, createClient } from "redis";
 import mongoose from "mongoose";
-import authentication from "./security/auth-middleware";
 import { addApolloMiddleware } from "./graphql";
+import authenticationMiddleware from "./security/auth-middleware";
 
 export let firebaseAuth: Auth;
 export let redis: RedisClientType;
@@ -54,18 +53,12 @@ const main = async () => {
   redis = createClient({ url: redisURL });
   console.log("> Redis connected");
 
-  const app = express();
-
-  // initialize apollo server
-  await addApolloMiddleware(app);
-
   // initialize express server
-  if (process.env["DEBUGGING"] === "true") {
-    app.use(cors({ origin: "http://localhost:4200", credentials: true }));
-  }
+  const app = express();
   app.use(express.json());
   app.use(cookieParser());
-  app.use(authentication);
+  app.use(authenticationMiddleware());
+  app.use(await addApolloMiddleware());
 
   // initialize handler for binary files
   let upload = multer({

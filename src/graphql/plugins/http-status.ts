@@ -31,7 +31,7 @@ import { ApolloServerPlugin } from "@apollo/server";
  * **500**
  * - BAD_USER_INPUT
  */
-export const httpStatusPlugin: ApolloServerPlugin = {
+const HttpStatusPlugin: ApolloServerPlugin = {
   async requestDidStart() {
     return {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,3 +84,5 @@ export const httpStatusPlugin: ApolloServerPlugin = {
     };
   },
 };
+
+export default HttpStatusPlugin;

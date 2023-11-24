@@ -41,6 +41,7 @@ const typeDefs = gql`
 
   type Session {
     sessionID: String!
+    user: String!
   }
 
   type User {
