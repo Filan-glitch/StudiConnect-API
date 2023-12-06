@@ -7,6 +7,12 @@ import NotFoundError from "./model/exceptions/not_found";
 import NoPermissionError from "./model/exceptions/no_permission";
 import DuplicateError from "./model/exceptions/duplicate";
 import Group from "../dataaccess/schema/group";
+import User from "../dataaccess/schema/user";
+import {
+  createGroupIndex,
+  deleteGroupIndex,
+  searchGroupsFromElasticsearch,
+} from "../dataaccess/elasticsearch/groups";
 
 export async function findGroupByID(
   id: string,
@@ -21,13 +27,57 @@ export async function findGroupByID(
   return mapGroupTO(entity);
 }
 
+export async function searchGroups(
+  module: string,
+  userID: string,
+  requestInfo: GraphQLResolveInfo
+): Promise<GroupTO[]> {
+  let user = await User.findById(userID);
+
+  if (user == null) {
+    throw new NotFoundError("Der Nutzer konnte nicht gefunden werden.");
+  }
+
+  if (user.university == null || user.major == null) {
+    throw new Error("Es ist ein unerwarteter Fehler aufgetreten.");
+  }
+
+  let searchResults = await searchGroupsFromElasticsearch(
+    user.university,
+    user.major,
+    module
+  );
+
+  searchResults = searchResults.filter((result: any) => result.score > 1);
+
+  let results = [];
+
+  for (let result of searchResults) {
+    let group = await findGroupByID(result.group_id, requestInfo);
+
+    if (group == null) {
+      throw new NotFoundError("Die Gruppe konnte nicht gefunden werden.");
+    }
+
+    results.push(mapGroupTO(group));
+  }
+
+  return results;
+}
+
 export async function createGroup(
   title: string,
   module: string,
   location: string,
   userID: string
 ): Promise<string> {
-  const group = new GroupModel();
+  let user = await User.findById(userID);
+
+  if (user == null) {
+    throw new NotFoundError("Der Nutzer konnte nicht gefunden werden.");
+  }
+
+  let group = new GroupModel();
   group._id = new Types.ObjectId();
   group.title = title;
   group.module = module;
@@ -37,7 +87,18 @@ export async function createGroup(
   group.joinRequests = [];
   group.createdAt = new Date();
 
-  await group.save();
+  group = await group.save();
+
+  if (group._id == null) {
+    throw new Error("Es ist ein unerwarteter Fehler aufgetreten.");
+  }
+
+  await createGroupIndex(
+    group._id.toHexString(),
+    user.university ?? "",
+    user.major ?? "",
+    module
+  );
 
   return group._id.toHexString();
 }
@@ -85,13 +146,14 @@ export async function deleteGroup(id: string, userID: string): Promise<void> {
   const isMember = group.members
     .map((member: Types.ObjectId) => member.toString())
     .includes(userID);
-  console.log(userID);
 
   if (!isMember) {
     throw new NoPermissionError("Sie sind kein Mitglied dieser Gruppe.");
   }
 
   await Group.findByIdAndDelete(id);
+
+  await deleteGroupIndex(id);
 }
 
 export async function joinGroup(id: string, userID: string): Promise<void> {

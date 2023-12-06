@@ -10,8 +10,7 @@ async function expressServerSetup(): Promise<number> {
   const app = express();
   app.use(express.json());
   app.use(cookieParser());
-  app.use(authenticationMiddleware());
-  app.use(await addApolloMiddleware());
+  //app.use(authenticationMiddleware());
 
   // initialize handler for binary files
   let upload = multer({
@@ -26,7 +25,7 @@ async function expressServerSetup(): Promise<number> {
   app.get("/api/profile/:uid/image", routes.getImage);
   app.post("/api/profile/image", upload.single("image"), routes.setImage);
   app.delete("/api/profile/image", routes.deleteImage);
-  //app.get("/api/search", routes.search);
+  app.use("/api/graphql", await addApolloMiddleware());
 
   let port = parseInt(process.env.PORT ?? "8080");
 

@@ -5,7 +5,7 @@ import { Void } from "../../core/graphql/model/void";
 import AppContext from "../../core/graphql/model/app_context";
 import HttpStatusPlugin from "../../core/graphql/plugins/http-status";
 import { user } from "../../api/graphql/queries/users";
-import { group } from "../../api/graphql/queries/groups";
+import { group, searchGroups_resolver } from "../../api/graphql/queries/groups";
 import {
   createGroup_resolver,
   updateGroup_resolver,
@@ -29,6 +29,7 @@ export const resolvers = {
   Query: {
     user,
     group,
+    searchGroups: searchGroups_resolver,
   },
   Mutation: {
     login: login_resolver,

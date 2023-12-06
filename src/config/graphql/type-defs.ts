@@ -6,6 +6,7 @@ const typeDefs = gql`
   type Query {
     user(id: ID!): User!
     group(id: ID!): Group!
+    searchGroups(module: String!): [Group!]!
   }
 
   type Mutation {

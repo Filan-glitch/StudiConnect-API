@@ -14,7 +14,7 @@ export default interface GroupTO {
 
 export function mapGroupTO(group: any): GroupTO {
   return {
-    id: group.id.toString(),
+    id: group.id?.toString(),
     title: group.title,
     module: group.module,
     creator: group.creator,
@@ -22,7 +22,10 @@ export function mapGroupTO(group: any): GroupTO {
     joinRequests: group.joinRequests?.map((joinRequest: any) =>
       mapUserTO(joinRequest)
     ),
-    createdAt: moment(group.createdAt).format("DD-MM-yyyy"),
+    createdAt:
+      group.createdAt === undefined
+        ? undefined
+        : moment(group.createdAt).format("DD-MM-yyyy"),
     location: group.location,
   };
 }

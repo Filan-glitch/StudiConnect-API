@@ -3,12 +3,14 @@ import "reflect-metadata";
 import mongodbSetup from "./config/mongodb";
 import expressServerSetup from "./config/express";
 import { firebaseSetup } from "./config/firebase";
+import { connectElasticsearch } from "./config/elasticsearch";
 
 const main = async () => {
   // initialize firebase admin sdk
   firebaseSetup();
 
   await mongodbSetup();
+  await connectElasticsearch();
 
   let port = await expressServerSetup();
 
