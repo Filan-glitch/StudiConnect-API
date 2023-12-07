@@ -67,6 +67,7 @@ export async function searchGroups(
 
 export async function createGroup(
   title: string,
+  description: string,
   module: string,
   location: string,
   userID: string
@@ -80,6 +81,7 @@ export async function createGroup(
   let group = new GroupModel();
   group._id = new Types.ObjectId();
   group.title = title;
+  group.description = description;
   group.module = module;
   group.location = location;
   group.creator = new Types.ObjectId(userID);
@@ -106,6 +108,7 @@ export async function createGroup(
 export async function updateGroup(
   id: string,
   title: string,
+  description: string,
   location: string,
   module: string,
   userID: string
@@ -125,10 +128,12 @@ export async function updateGroup(
   }
 
   group.title = title;
+  group.description = description;
   group.location = location;
   group.module = module;
 
   group.markModified("title");
+  group.markModified("description");
   group.markModified("location");
   group.markModified("module");
 

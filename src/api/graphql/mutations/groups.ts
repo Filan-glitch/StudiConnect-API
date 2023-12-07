@@ -19,29 +19,40 @@ import NotFoundError from "../../../logic/model/exceptions/not_found";
 
 export async function createGroup_resolver(
   _parent: unknown,
-  args: { title: string; module: string; location: string },
+  args: {
+    title: string;
+    description: string;
+    module: string;
+    location: string;
+  },
   context: AppContext,
   info: GraphQLResolveInfo
 ): Promise<GroupTO> {
-  const { title, module, location } = args;
+  const { title, description, module, location } = args;
   const { userID } = context;
 
   if (userID == undefined) {
     throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
   }
 
-  let groupID = await createGroup(title, module, location, userID);
+  let groupID = await createGroup(title, description, module, location, userID);
 
   return findGroupByID(groupID, info);
 }
 
 export async function updateGroup_resolver(
   _parent: unknown,
-  args: { id: string; title: string; location: string; module: string },
+  args: {
+    id: string;
+    title: string;
+    description: string;
+    location: string;
+    module: string;
+  },
   context: AppContext,
   info: GraphQLResolveInfo
 ): Promise<GroupTO> {
-  const { id, title, location, module } = args;
+  const { id, title, description, location, module } = args;
   const { userID } = context;
 
   if (userID == undefined) {
@@ -49,7 +60,7 @@ export async function updateGroup_resolver(
   }
 
   try {
-    await updateGroup(id, title, location, module, userID);
+    await updateGroup(id, title, description, location, module, userID);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);

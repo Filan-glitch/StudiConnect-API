@@ -9,6 +9,7 @@ const Group = mongoose.model(
   new Schema({
     _id: Schema.ObjectId,
     title: String,
+    description: String,
     module: String,
     creator: { type: Schema.ObjectId, ref: UserModelConfig.schemaName },
     members: [{ type: Schema.ObjectId, ref: UserModelConfig.schemaName }],

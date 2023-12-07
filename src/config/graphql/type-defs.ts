@@ -27,10 +27,16 @@ const typeDefs = gql`
     resetPassword: Void
     deleteAccount: Void
 
-    createGroup(title: String!, module: String!, location: String!): Group!
+    createGroup(
+      title: String!
+      description: String!
+      module: String!
+      location: String!
+    ): Group!
     updateGroup(
       id: ID!
       title: String!
+      description: String!
       location: String!
       module: String!
     ): Group!
@@ -63,6 +69,7 @@ const typeDefs = gql`
   type Group {
     id: ID!
     title: String!
+    description: String!
     module: String!
     creator: User!
     members: [User!]!
