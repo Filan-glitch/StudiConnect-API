@@ -23,19 +23,26 @@ export async function createGroup_resolver(
     title: string;
     description: string;
     module: string;
-    location: string;
+    lat: number;
+    lon: number;
   },
   context: AppContext,
   info: GraphQLResolveInfo
 ): Promise<GroupTO> {
-  const { title, description, module, location } = args;
+  const { title, description, module, lat, lon } = args;
   const { userID } = context;
 
   if (userID == undefined) {
     throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
   }
 
-  let groupID = await createGroup(title, description, module, location, userID);
+  let groupID = await createGroup(
+    title,
+    description,
+    module,
+    { lat, lon },
+    userID
+  );
 
   return findGroupByID(groupID, info);
 }
@@ -46,13 +53,14 @@ export async function updateGroup_resolver(
     id: string;
     title: string;
     description: string;
-    location: string;
+    lat: number;
+    lon: number;
     module: string;
   },
   context: AppContext,
   info: GraphQLResolveInfo
 ): Promise<GroupTO> {
-  const { id, title, description, location, module } = args;
+  const { id, title, description, lat, lon, module } = args;
   const { userID } = context;
 
   if (userID == undefined) {
@@ -60,7 +68,7 @@ export async function updateGroup_resolver(
   }
 
   try {
-    await updateGroup(id, title, description, location, module, userID);
+    await updateGroup(id, title, description, { lat, lon }, module, userID);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);

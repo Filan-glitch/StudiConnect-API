@@ -4,6 +4,7 @@ import UserTO, { mapUserTO } from "./model/to/user_to";
 import { queryOneByID } from "../core/dataaccess/query_builder";
 import NotFoundError from "./model/exceptions/not_found";
 import NoPermissionError from "./model/exceptions/no_permission";
+import Location from "./model/location";
 
 export async function findUserByID(
   id: string,
@@ -36,7 +37,7 @@ export async function updateProfile(
   publicVisible: boolean,
   university: string,
   major: string,
-  location: string,
+  location: Location,
   bio: string,
   mobile: string,
   discord: string
@@ -51,7 +52,8 @@ export async function updateProfile(
   user.publicVisible = publicVisible;
   user.university = university;
   user.major = major;
-  user.location = location;
+  user.lat = location.lat;
+  user.lon = location.lon;
   user.bio = bio;
   user.mobile = mobile;
   user.discord = discord;
@@ -60,7 +62,8 @@ export async function updateProfile(
   user.markModified("publicVisible");
   user.markModified("university");
   user.markModified("major");
-  user.markModified("location");
+  user.markModified("lat");
+  user.markModified("lon");
   user.markModified("bio");
   user.markModified("mobile");
   user.markModified("discord");

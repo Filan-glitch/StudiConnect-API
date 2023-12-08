@@ -35,16 +35,16 @@ export async function group(
 
 export async function searchGroups_resolver(
   _parent: unknown,
-  args: { module: string },
+  args: { module: string; radius: number },
   context: AppContext,
   info: GraphQLResolveInfo
 ): Promise<GroupTO[]> {
-  const { module } = args;
+  const { module, radius } = args;
   const { userID } = context;
 
   if (userID == undefined) {
     throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
   }
 
-  return searchGroups(module, userID, info);
+  return searchGroups(module, radius, userID, info);
 }

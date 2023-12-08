@@ -1,9 +1,12 @@
 import { getElasticsearchClient } from "../../config/elasticsearch";
+import Location from "../../logic/model/location";
 
 export async function searchGroupsFromElasticsearch(
   university: string,
   major: string,
-  module: string
+  module: string,
+  location: Location,
+  radius: number
 ): Promise<any[]> {
   const client = getElasticsearchClient();
 
@@ -33,6 +36,15 @@ export async function searchGroupsFromElasticsearch(
               },
             },
           ],
+          filter: {
+            geo_distance: {
+              distance: `${radius}km`,
+              location: {
+                lat: location.lat,
+                lon: location.lon,
+              },
+            },
+          },
         },
       },
     },
@@ -55,7 +67,9 @@ export async function createGroupIndex(
   group_id: string,
   university: string,
   major: string,
-  module: string
+  module: string,
+  lat: number,
+  lon: number
 ): Promise<string> {
   const client = getElasticsearchClient();
 
@@ -66,6 +80,10 @@ export async function createGroupIndex(
       university,
       major,
       module,
+      location: {
+        lat,
+        lon,
+      },
     },
   });
 

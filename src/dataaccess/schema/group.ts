@@ -15,7 +15,8 @@ const Group = mongoose.model(
     members: [{ type: Schema.ObjectId, ref: UserModelConfig.schemaName }],
     joinRequests: [{ type: Schema.ObjectId, ref: UserModelConfig.schemaName }],
     createdAt: Date,
-    location: String,
+    lat: Number,
+    lon: Number,
   })
 );
 

@@ -6,7 +6,7 @@ const typeDefs = gql`
   type Query {
     user(id: ID!): User!
     group(id: ID!): Group!
-    searchGroups(module: String!): [Group!]!
+    searchGroups(module: String!, radius: Int!): [Group!]!
   }
 
   type Mutation {
@@ -19,7 +19,8 @@ const typeDefs = gql`
       publicVisible: Boolean!
       university: String!
       major: String!
-      location: String!
+      lat: Float!
+      lon: Float!
       bio: String!
       mobile: String!
       discord: String!
@@ -31,13 +32,15 @@ const typeDefs = gql`
       title: String!
       description: String!
       module: String!
-      location: String!
+      lat: Float!
+      lon: Float!
     ): Group!
     updateGroup(
       id: ID!
       title: String!
       description: String!
-      location: String!
+      lat: Float!
+      lon: Float!
       module: String!
     ): Group!
     deleteGroup(id: ID!): Void
@@ -60,7 +63,8 @@ const typeDefs = gql`
     darkThemeEnabled: Boolean!
     university: String!
     major: String!
-    location: String!
+    lat: Float!
+    lon: Float!
     bio: String!
     mobile: String!
     discord: String!
@@ -75,7 +79,8 @@ const typeDefs = gql`
     members: [User!]!
     joinRequests: [User!]!
     createdAt: String!
-    location: String!
+    lat: Float!
+    lon: Float!
   }
 `;
 

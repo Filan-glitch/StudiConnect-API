@@ -20,6 +20,7 @@ export async function connectElasticsearch(): Promise<void> {
               university: { type: "text" },
               major: { type: "text" },
               module: { type: "text" },
+              location: { type: "geo_point" },
             },
           },
         },

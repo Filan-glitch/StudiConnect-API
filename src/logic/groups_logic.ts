@@ -13,6 +13,7 @@ import {
   deleteGroupIndex,
   searchGroupsFromElasticsearch,
 } from "../dataaccess/elasticsearch/groups";
+import Location from "./model/location";
 
 export async function findGroupByID(
   id: string,
@@ -29,6 +30,7 @@ export async function findGroupByID(
 
 export async function searchGroups(
   module: string,
+  radius: number,
   userID: string,
   requestInfo: GraphQLResolveInfo
 ): Promise<GroupTO[]> {
@@ -38,14 +40,21 @@ export async function searchGroups(
     throw new NotFoundError("Der Nutzer konnte nicht gefunden werden.");
   }
 
-  if (user.university == null || user.major == null) {
+  if (
+    user.university == null ||
+    user.major == null ||
+    user.lat == null ||
+    user.lon == null
+  ) {
     throw new Error("Es ist ein unerwarteter Fehler aufgetreten.");
   }
 
   let searchResults = await searchGroupsFromElasticsearch(
     user.university,
     user.major,
-    module
+    module,
+    { lat: user.lat, lon: user.lon },
+    radius
   );
 
   searchResults = searchResults.filter((result: any) => result.score > 1);
@@ -69,7 +78,7 @@ export async function createGroup(
   title: string,
   description: string,
   module: string,
-  location: string,
+  location: Location,
   userID: string
 ): Promise<string> {
   let user = await User.findById(userID);
@@ -83,7 +92,8 @@ export async function createGroup(
   group.title = title;
   group.description = description;
   group.module = module;
-  group.location = location;
+  group.lat = location.lat;
+  group.lon = location.lon;
   group.creator = new Types.ObjectId(userID);
   group.members = [new Types.ObjectId(userID)];
   group.joinRequests = [];
@@ -99,7 +109,9 @@ export async function createGroup(
     group._id.toHexString(),
     user.university ?? "",
     user.major ?? "",
-    module
+    module,
+    location.lat,
+    location.lon
   );
 
   return group._id.toHexString();
@@ -109,7 +121,7 @@ export async function updateGroup(
   id: string,
   title: string,
   description: string,
-  location: string,
+  location: Location,
   module: string,
   userID: string
 ): Promise<string> {
@@ -129,12 +141,14 @@ export async function updateGroup(
 
   group.title = title;
   group.description = description;
-  group.location = location;
+  group.lat = location.lat;
+  group.lon = location.lon;
   group.module = module;
 
   group.markModified("title");
   group.markModified("description");
-  group.markModified("location");
+  group.markModified("lat");
+  group.markModified("lon");
   group.markModified("module");
 
   await group.save();

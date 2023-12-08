@@ -26,7 +26,8 @@ export async function authenticate(token: string): Promise<SessionTO> {
     user.darkThemeEnabled = false;
     user.university = "";
     user.major = "";
-    user.location = "";
+    user.lat = 0;
+    user.lon = 0;
     user.bio = "";
     user.mobile = "";
     user.discord = "";

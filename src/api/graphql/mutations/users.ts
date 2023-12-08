@@ -11,7 +11,8 @@ export async function updateProfile_resolver(
     publicVisible: boolean;
     university: string;
     major: string;
-    location: string;
+    lat: number;
+    lon: number;
     bio: string;
     mobile: string;
     discord: string;
@@ -24,7 +25,8 @@ export async function updateProfile_resolver(
     publicVisible,
     university,
     major,
-    location,
+    lat,
+    lon,
     bio,
     mobile,
     discord,
@@ -41,7 +43,7 @@ export async function updateProfile_resolver(
     publicVisible,
     university,
     major,
-    location,
+    { lat, lon },
     bio,
     mobile,
     discord
