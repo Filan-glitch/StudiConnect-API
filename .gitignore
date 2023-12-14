@@ -31,6 +31,4 @@ typings/
 password.txt
 studiconnect-32c08-firebase-adminsdk-ryq7d-fc5c028cc6.json
 
-/data/tmp/*
-/data/profile-images/*
-!/data/profile-images/default.jpg
+/data/*
