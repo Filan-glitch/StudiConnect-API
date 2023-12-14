@@ -10,8 +10,6 @@ const User = mongoose.model(
     email: String,
     username: String,
     verified: Boolean,
-    publicVisible: Boolean,
-    darkThemeEnabled: Boolean,
     university: String,
     major: String,
     lat: Number,

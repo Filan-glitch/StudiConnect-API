@@ -8,7 +8,6 @@ export async function updateProfile_resolver(
   _parent: unknown,
   args: {
     username: string;
-    publicVisible: boolean;
     university: string;
     major: string;
     lat: number;
@@ -20,17 +19,7 @@ export async function updateProfile_resolver(
   context: AppContext,
   info: GraphQLResolveInfo
 ): Promise<UserTO> {
-  let {
-    username,
-    publicVisible,
-    university,
-    major,
-    lat,
-    lon,
-    bio,
-    mobile,
-    discord,
-  } = args;
+  let { username, university, major, lat, lon, bio, mobile, discord } = args;
   const { userID } = context;
 
   if (userID == undefined) {
@@ -40,7 +29,6 @@ export async function updateProfile_resolver(
   await updateProfile(
     userID,
     username,
-    publicVisible,
     university,
     major,
     { lat, lon },

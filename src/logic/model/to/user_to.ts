@@ -3,8 +3,6 @@ export default interface UserTO {
   email: string | undefined;
   username: string | undefined;
   verified: boolean | undefined;
-  publicVisible: boolean | undefined;
-  darkThemeEnabled: boolean | undefined;
   university: string | undefined;
   major: string | undefined;
   location: string | undefined;
@@ -19,8 +17,6 @@ export function mapUserTO(user: any): UserTO {
     email: user.email,
     username: user.username,
     verified: user.verified,
-    publicVisible: user.publicVisible,
-    darkThemeEnabled: user.darkThemeEnabled,
     university: user.university,
     major: user.major,
     location: user.location,

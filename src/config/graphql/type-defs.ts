@@ -13,10 +13,8 @@ const typeDefs = gql`
     login(token: String!): Session!
     logout: Void
 
-    updateSettings(darkThemeEnabled: Boolean): User!
     updateProfile(
       username: String!
-      publicVisible: Boolean!
       university: String!
       major: String!
       lat: Float!
@@ -59,8 +57,6 @@ const typeDefs = gql`
     email: String!
     username: String!
     verified: Boolean!
-    publicVisible: Boolean!
-    darkThemeEnabled: Boolean!
     university: String!
     major: String!
     lat: Float!

@@ -18,14 +18,7 @@ export async function findUserByID(
   }
 
   if (id != currentUser) {
-    if (!entity.publicVisible) {
-      throw new NoPermissionError(
-        "Sie haben keine Berechtigung, diesen Benutzer anzuzeigen."
-      );
-    } else {
-      entity.verified = undefined;
-      entity.darkThemeEnabled = undefined;
-    }
+    entity.verified = undefined;
   }
 
   return mapUserTO(entity);
@@ -34,7 +27,6 @@ export async function findUserByID(
 export async function updateProfile(
   id: string,
   username: string,
-  publicVisible: boolean,
   university: string,
   major: string,
   location: Location,
@@ -49,7 +41,6 @@ export async function updateProfile(
   }
 
   user.username = username;
-  user.publicVisible = publicVisible;
   user.university = university;
   user.major = major;
   user.lat = location.lat;
@@ -59,7 +50,6 @@ export async function updateProfile(
   user.discord = discord;
 
   user.markModified("username");
-  user.markModified("publicVisible");
   user.markModified("university");
   user.markModified("major");
   user.markModified("lat");

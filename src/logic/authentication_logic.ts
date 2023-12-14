@@ -22,8 +22,6 @@ export async function authenticate(token: string): Promise<SessionTO> {
     user.email = tokenDetails.email;
     user.username = tokenDetails.display_name;
     user.verified = tokenDetails.email_verified ?? false;
-    user.publicVisible = false;
-    user.darkThemeEnabled = false;
     user.university = "";
     user.major = "";
     user.lat = 0;

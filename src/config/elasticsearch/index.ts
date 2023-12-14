@@ -1,7 +1,5 @@
 import { Client } from "@elastic/elasticsearch";
 
-const indices = ["universities", "majors", "modules"];
-
 let client: Client;
 
 export async function connectElasticsearch(): Promise<void> {
