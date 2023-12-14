@@ -1,42 +1,61 @@
-//import { getUserBySessionID } from "../authentication";
 import { Request, Response } from "express";
-import { readFileSync, renameSync, existsSync, unlinkSync } from "fs";
+import logic from "../../logic/group";
+import auth_logic from "../../logic/authentication_logic";
+import NotFoundError from "../../logic/model/exceptions/not_found";
+import NoPermissionError from "../../logic/model/exceptions/no_permission";
 
 export const getGroupImage = async (req: Request, res: Response) => {
-  const uid = req.params.uid;
-  let content: Buffer;
-  let path = `${process.env.PUBLIC_FILES}/group-images/${uid}.jpg`;
-  if (existsSync(path)) {
-    content = readFileSync(path);
+  const content = logic.getGroupImage(req.params.id);
+
+  if (content === null) {
+    res.sendStatus(404);
   } else {
-    content = readFileSync(
-      `${process.env.PUBLIC_FILES}/group-images/default.jpg`
-    );
+    res.writeHead(200, { "Content-type": "image/jpg" });
+    res.end(content);
   }
-  res.writeHead(200, { "Content-type": "image/jpg" });
-  res.end(content);
 };
 
-export const setGroupImage = async (req: any, res: any) => {
-  // let user = await getUserBySessionID(req.cookies["session"]);
-  let user = {
-    uid: "abc",
-  };
-  // let path = `${process.env.PUBLIC_FILES}/group-images/${user!.uid}.jpg`;
-  let path = `${process.env.PUBLIC_FILES}/group-images/${user.uid}.jpg`;
-  renameSync(req.file.path, path);
-  res.sendStatus(200);
+export const setGroupImage = async (req: Request, res: Response) => {
+  let uid = await auth_logic.getUserIdBySession(req.cookies["session"]);
+
+  if (uid === undefined) {
+    res.sendStatus(401);
+    return;
+  }
+  try {
+    await logic.setGroupImage(req.params.id, uid, req.body);
+    res.sendStatus(200);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      res.sendStatus(404);
+    } else if (error instanceof NoPermissionError) {
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(500);
+    }
+  }
 };
 
-export const deleteGroupImage = async (req: any, res: any) => {
-  // let user = await getUserBySessionID(req.cookies["session"]);
+export const deleteGroupImage = async (req: Request, res: Response) => {
+  let uid = await auth_logic.getUserIdBySession(req.cookies["session"]);
 
-  let user = {
-    uid: "abc",
-  };
-  const path = `${process.env.PUBLIC_FILES}/group-images/${user!.uid}.jpg`;
-  if (existsSync(path)) {
-    unlinkSync(path);
+  if (uid === undefined) {
+    res.sendStatus(401);
+    return;
   }
-  res.sendStatus(200);
+
+  try {
+    await logic.deleteGroupImage(req.params.id, uid);
+    res.sendStatus(200);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      res.sendStatus(404);
+      return;
+    } else if (error instanceof NoPermissionError) {
+      res.sendStatus(403);
+      return;
+    } else {
+      res.sendStatus(500);
+    }
+  }
 };

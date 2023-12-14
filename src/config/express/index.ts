@@ -19,9 +19,12 @@ async function expressServerSetup(): Promise<number> {
   //app.use(authenticationMiddleware());
 
   app.get("/health", routes.health);
-  app.get("/api/profile/:uid/image", routes.getProfileImage);
-  app.post("/api/profile/image", routes.setProfileImage);
-  app.delete("/api/profile/image", routes.deleteProfileImage);
+  app.get("/api/user/:uid/image", routes.getProfileImage);
+  app.post("/api/user/image", routes.setProfileImage);
+  app.delete("/api/user/image", routes.deleteProfileImage);
+  app.get("/api/group/:id/image", routes.getGroupImage);
+  app.post("/api/group/:id/image", routes.setGroupImage);
+  app.delete("/api/group/:id/image", routes.deleteGroupImage);
   app.use("/api/graphql", await addApolloMiddleware());
 
   let port = parseInt(process.env.PORT ?? "8080");

@@ -1,3 +1,4 @@
+import { getGroupImage, setGroupImage, deleteGroupImage } from "./group-images";
 import { health } from "./health";
 import {
   deleteProfileImage,
@@ -10,4 +11,7 @@ export default {
   getProfileImage,
   setProfileImage,
   deleteProfileImage,
+  getGroupImage,
+  setGroupImage,
+  deleteGroupImage,
 };
