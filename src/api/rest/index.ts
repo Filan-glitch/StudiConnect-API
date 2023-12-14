@@ -1,9 +1,13 @@
 import { health } from "./health";
-import { deleteImage, getImage, setImage } from "./profile-images";
+import {
+  deleteProfileImage,
+  getProfileImage,
+  setProfileImage,
+} from "./profile-images";
 
 export default {
   health,
-  getImage,
-  setImage,
-  deleteImage,
+  getProfileImage,
+  setProfileImage,
+  deleteProfileImage,
 };

@@ -7,11 +7,13 @@ import SessionTO from "./model/to/session_to";
 export default {
   authenticate,
   logout,
+  getUserIdBySession,
 };
 
 async function authenticate(token: string): Promise<SessionTO> {
   let tokenDetails = await getFirebaseAuth().verifyIdToken(token);
 
+  // TODO: enable token expiration
   // const TOKEN_EXPIRE = 5 * 60; // 5 minutes
   // if (new Date().getTime() / 1000 - tokenDetails.iat > TOKEN_EXPIRE) {
   //   throw new AuthenticationError("Token ist abgelaufen.");
@@ -52,4 +54,12 @@ async function authenticate(token: string): Promise<SessionTO> {
 
 async function logout(sessionID: string): Promise<void> {
   await SessionModel.findByIdAndDelete(sessionID).exec();
+}
+
+async function getUserIdBySession(
+  sessionID: string
+): Promise<string | undefined> {
+  return "6543b31be1c4c473ea66428f";
+  const session = await SessionModel.findById(sessionID).exec();
+  return session?.user?.toHexString();
 }

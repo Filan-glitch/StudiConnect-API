@@ -1,30 +1,27 @@
 import express from "express";
-import multer from "multer";
 import routes from "../../api/rest";
 import { addApolloMiddleware } from "../graphql";
-import authenticationMiddleware from "../../core/rest/authentication_middleware";
+import bodyParser from "body-parser";
 
 const cookieParser = require("cookie-parser");
 
 async function expressServerSetup(): Promise<number> {
   const app = express();
+  app.use(
+    bodyParser.raw({
+      inflate: true,
+      type: "image/*",
+      limit: "10mb",
+    })
+  );
   app.use(express.json());
   app.use(cookieParser());
   //app.use(authenticationMiddleware());
 
-  // initialize handler for binary files
-  let upload = multer({
-    dest: "/data/tmp/",
-    limits: {
-      fieldNameSize: 300,
-      fileSize: 16000000, // 16 MB
-    },
-  });
-
   app.get("/health", routes.health);
-  app.get("/api/profile/:uid/image", routes.getImage);
-  app.post("/api/profile/image", upload.single("image"), routes.setImage);
-  app.delete("/api/profile/image", routes.deleteImage);
+  app.get("/api/profile/:uid/image", routes.getProfileImage);
+  app.post("/api/profile/image", routes.setProfileImage);
+  app.delete("/api/profile/image", routes.deleteProfileImage);
   app.use("/api/graphql", await addApolloMiddleware());
 
   let port = parseInt(process.env.PORT ?? "8080");
