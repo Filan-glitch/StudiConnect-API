@@ -2,22 +2,14 @@ import { GraphQLResolveInfo } from "graphql";
 import AppContext from "../../../core/graphql/model/app_context";
 import AuthenticationGraphQlError from "../errors/authentication";
 import GroupTO from "../../../logic/model/to/group_to";
-import {
-  addMember,
-  createGroup,
-  deleteGroup,
-  findGroupByID,
-  joinGroup,
-  removeMember,
-  updateGroup,
-} from "../../../logic/groups_logic";
+import logic from "../../../logic/group";
 import NotFoundGraphQlError from "../errors/not-found";
 import DuplicateGraphQlError from "../errors/duplicate";
 import DuplicateError from "../../../logic/model/exceptions/duplicate";
 import NoPermissionError from "../../../logic/model/exceptions/no_permission";
 import NotFoundError from "../../../logic/model/exceptions/not_found";
 
-export async function createGroup_resolver(
+export async function createGroup(
   _parent: unknown,
   args: {
     title: string;
@@ -36,7 +28,7 @@ export async function createGroup_resolver(
     throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
   }
 
-  let groupID = await createGroup(
+  let groupID = await logic.createGroup(
     title,
     description,
     module,
@@ -44,10 +36,10 @@ export async function createGroup_resolver(
     userID
   );
 
-  return findGroupByID(groupID, info);
+  return logic.findGroupByID(groupID, info);
 }
 
-export async function updateGroup_resolver(
+export async function updateGroup(
   _parent: unknown,
   args: {
     id: string;
@@ -68,7 +60,14 @@ export async function updateGroup_resolver(
   }
 
   try {
-    await updateGroup(id, title, description, { lat, lon }, module, userID);
+    await logic.updateGroup(
+      id,
+      title,
+      description,
+      { lat, lon },
+      module,
+      userID
+    );
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);
@@ -79,10 +78,10 @@ export async function updateGroup_resolver(
     throw error;
   }
 
-  return findGroupByID(id, info);
+  return logic.findGroupByID(id, info);
 }
 
-export async function deleteGroup_resolver(
+export async function deleteGroup(
   _parent: unknown,
   args: { id: string },
   context: AppContext,
@@ -96,7 +95,7 @@ export async function deleteGroup_resolver(
   }
 
   try {
-    await deleteGroup(id, userID);
+    await logic.deleteGroup(id, userID);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);
@@ -108,7 +107,7 @@ export async function deleteGroup_resolver(
   }
 }
 
-export async function joinGroup_resolver(
+export async function joinGroup(
   _parent: unknown,
   args: { id: string },
   context: AppContext,
@@ -122,7 +121,7 @@ export async function joinGroup_resolver(
   }
 
   try {
-    await joinGroup(id, userID);
+    await logic.joinGroup(id, userID);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);
@@ -135,7 +134,7 @@ export async function joinGroup_resolver(
   }
 }
 
-export async function addMember_resolver(
+export async function addMember(
   _parent: unknown,
   args: { id: string; user: string },
   context: AppContext,
@@ -149,7 +148,7 @@ export async function addMember_resolver(
   }
 
   try {
-    await addMember(id, user, userID);
+    await logic.addMember(id, user, userID);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);
@@ -162,7 +161,7 @@ export async function addMember_resolver(
   }
 }
 
-export async function removeMember_resolver(
+export async function removeMember(
   _parent: unknown,
   args: { id: string; user: string },
   context: AppContext,
@@ -176,7 +175,7 @@ export async function removeMember_resolver(
   }
 
   try {
-    await removeMember(id, user, userID);
+    await logic.removeMember(id, user, userID);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);

@@ -5,20 +5,17 @@ import { Void } from "../../core/graphql/model/void";
 import AppContext from "../../core/graphql/model/app_context";
 import HttpStatusPlugin from "../../core/graphql/plugins/http-status";
 import { user } from "../../api/graphql/queries/users";
-import { group, searchGroups_resolver } from "../../api/graphql/queries/groups";
+import { group, searchGroups } from "../../api/graphql/queries/groups";
 import {
-  createGroup_resolver,
-  updateGroup_resolver,
-  deleteGroup_resolver,
-  joinGroup_resolver,
-  addMember_resolver,
-  removeMember_resolver,
+  createGroup,
+  updateGroup,
+  deleteGroup,
+  joinGroup,
+  addMember,
+  removeMember,
 } from "../../api/graphql/mutations/groups";
-import { updateProfile_resolver } from "../../api/graphql/mutations/users";
-import {
-  login_resolver,
-  logout_resolver,
-} from "../../api/graphql/mutations/auth";
+import { updateProfile } from "../../api/graphql/mutations/users";
+import { login, logout } from "../../api/graphql/mutations/auth";
 import { RequestHandler } from "express";
 import LifecyclePlugin from "../../core/graphql/plugins/lifecycle";
 import AuthenticationPlugin from "../../core/graphql/plugins/authentication";
@@ -29,18 +26,18 @@ export const resolvers = {
   Query: {
     user,
     group,
-    searchGroups: searchGroups_resolver,
+    searchGroups,
   },
   Mutation: {
-    login: login_resolver,
-    logout: logout_resolver,
-    updateProfile: updateProfile_resolver,
-    createGroup: createGroup_resolver,
-    updateGroup: updateGroup_resolver,
-    deleteGroup: deleteGroup_resolver,
-    joinGroup: joinGroup_resolver,
-    addMember: addMember_resolver,
-    removeMember: removeMember_resolver,
+    login,
+    logout,
+    updateProfile,
+    createGroup,
+    updateGroup,
+    deleteGroup,
+    joinGroup,
+    addMember,
+    removeMember,
   },
 };
 

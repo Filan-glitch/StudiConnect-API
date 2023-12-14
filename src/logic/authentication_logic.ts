@@ -4,7 +4,12 @@ import UserModel from "../dataaccess/schema/user";
 import SessionModel from "../dataaccess/schema/session";
 import SessionTO from "./model/to/session_to";
 
-export async function authenticate(token: string): Promise<SessionTO> {
+export default {
+  authenticate,
+  logout,
+};
+
+async function authenticate(token: string): Promise<SessionTO> {
   let tokenDetails = await getFirebaseAuth().verifyIdToken(token);
 
   // const TOKEN_EXPIRE = 5 * 60; // 5 minutes
@@ -45,6 +50,6 @@ export async function authenticate(token: string): Promise<SessionTO> {
   };
 }
 
-export async function logout(sessionID: string): Promise<void> {
+async function logout(sessionID: string): Promise<void> {
   await SessionModel.findByIdAndDelete(sessionID).exec();
 }

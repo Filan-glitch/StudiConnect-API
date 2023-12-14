@@ -2,9 +2,9 @@ import { GraphQLResolveInfo } from "graphql";
 import AppContext from "../../../core/graphql/model/app_context";
 import AuthenticationGraphQlError from "../errors/authentication";
 import UserTO from "../../../logic/model/to/user_to";
-import { findUserByID, updateProfile } from "../../../logic/user_logic";
+import logic from "../../../logic/user";
 
-export async function updateProfile_resolver(
+export async function updateProfile(
   _parent: unknown,
   args: {
     username: string;
@@ -26,7 +26,7 @@ export async function updateProfile_resolver(
     throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
   }
 
-  await updateProfile(
+  await logic.updateProfile(
     userID,
     username,
     university,
@@ -37,5 +37,5 @@ export async function updateProfile_resolver(
     discord
   );
 
-  return findUserByID(userID, userID, info);
+  return logic.findUserByID(userID, userID, info);
 }

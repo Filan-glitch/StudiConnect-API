@@ -3,7 +3,7 @@ import AppContext from "../../../core/graphql/model/app_context";
 import AuthenticationGraphQlError from "../errors/authentication";
 import NotFoundGraphQlError from "../errors/not-found";
 import GroupTO from "../../../logic/model/to/group_to";
-import { findGroupByID, searchGroups } from "../../../logic/groups_logic";
+import logic from "../../../logic/group";
 import NotFoundError from "../../../logic/model/exceptions/not_found";
 
 export async function group(
@@ -21,7 +21,7 @@ export async function group(
 
   let result: GroupTO;
   try {
-    result = await findGroupByID(id, info);
+    result = await logic.findGroupByID(id, info);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);
@@ -33,7 +33,7 @@ export async function group(
   return result;
 }
 
-export async function searchGroups_resolver(
+export async function searchGroups(
   _parent: unknown,
   args: { module: string; radius: number },
   context: AppContext,
@@ -46,5 +46,5 @@ export async function searchGroups_resolver(
     throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
   }
 
-  return searchGroups(module, radius, userID, info);
+  return logic.searchGroups(module, radius, userID, info);
 }

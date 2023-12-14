@@ -1,10 +1,10 @@
 import { GraphQLResolveInfo } from "graphql";
 import AppContext from "../../../core/graphql/model/app_context";
 import AuthenticationGraphQlError from "../errors/authentication";
-import { authenticate, logout } from "../../../logic/authentication_logic";
+import logic from "../../../logic/authentication_logic";
 import SessionTO from "../../../logic/model/to/session_to";
 
-export async function login_resolver(
+export async function login(
   _parent: unknown,
   args: { token: string },
   _context: AppContext,
@@ -12,10 +12,10 @@ export async function login_resolver(
 ): Promise<SessionTO> {
   const { token } = args;
 
-  return authenticate(token);
+  return logic.authenticate(token);
 }
 
-export async function logout_resolver(
+export async function logout(
   _parent: unknown,
   _args: unknown,
   context: AppContext,
@@ -27,5 +27,5 @@ export async function logout_resolver(
     throw new AuthenticationGraphQlError("Sie sind nicht angemeldet");
   }
 
-  await logout(sessionID);
+  await logic.logout(sessionID);
 }

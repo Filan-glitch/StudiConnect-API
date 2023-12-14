@@ -3,7 +3,7 @@ import AppContext from "../../../core/graphql/model/app_context";
 import AuthenticationGraphQlError from "../errors/authentication";
 import NotFoundGraphQlError from "../errors/not-found";
 import UserTO from "../../../logic/model/to/user_to";
-import { findUserByID } from "../../../logic/user_logic";
+import logic from "../../../logic/user";
 import NoPermissionError from "../../../logic/model/exceptions/no_permission";
 import NotFoundError from "../../../logic/model/exceptions/not_found";
 
@@ -23,7 +23,7 @@ export async function user(
   let result: UserTO;
 
   try {
-    result = await findUserByID(id, userID, info);
+    result = await logic.findUserByID(id, userID, info);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundGraphQlError(error.message);
