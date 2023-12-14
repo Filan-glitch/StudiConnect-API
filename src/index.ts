@@ -1,5 +1,4 @@
 import "dotenv/config";
-import "reflect-metadata";
 import mongodbSetup from "./config/mongodb";
 import expressServerSetup from "./config/express";
 import { firebaseSetup } from "./config/firebase";
