@@ -6,6 +6,8 @@ import UserTO from "../../../logic/model/to/user_to";
 import logic from "../../../logic/user";
 import NoPermissionError from "../../../logic/model/exceptions/no_permission";
 import NotFoundError from "../../../logic/model/exceptions/not_found";
+import GroupTO from "../../../logic/model/to/group_to";
+import groupLogic from "../../../logic/group";
 
 export async function user(
   _parent: unknown,
@@ -35,4 +37,23 @@ export async function user(
   }
 
   return result;
+}
+
+export async function groupsOfUser(
+  parent: UserTO,
+  _args: unknown,
+  context: AppContext,
+  info: GraphQLResolveInfo
+): Promise<GroupTO[]> {
+  if (parent.id == undefined) {
+    throw new Error("ID was not fetched");
+  }
+
+  if (parent.id != context.userID) {
+    throw new NoPermissionError(
+      "Sie haben keine Berechtigung, die Gruppen einzusehen."
+    );
+  }
+
+  return groupLogic.findGroupsOfUser(parent.id ?? "", info);
 }

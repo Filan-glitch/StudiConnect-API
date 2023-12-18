@@ -4,7 +4,7 @@ import typeDefs from "./type-defs";
 import { Void } from "../../core/graphql/model/void";
 import AppContext from "../../core/graphql/model/app_context";
 import HttpStatusPlugin from "../../core/graphql/plugins/http-status";
-import { user } from "../../api/graphql/queries/users";
+import { user, groupsOfUser } from "../../api/graphql/queries/users";
 import { group, searchGroups } from "../../api/graphql/queries/groups";
 import {
   createGroup,
@@ -28,6 +28,10 @@ export const resolvers = {
     group,
     searchGroups,
   },
+  User: {
+    groups: groupsOfUser,
+  },
+
   Mutation: {
     login,
     logout,

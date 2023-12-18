@@ -54,7 +54,7 @@ function _populateFields(
   if (nodes === undefined) {
     return {
       populate: [],
-      select: [],
+      select: ["_id"],
     };
   }
 
@@ -64,6 +64,11 @@ function _populateFields(
   for (const _node of nodes) {
     let node = _node as FieldNode;
     const fieldName = node.name.value;
+
+    if (rootEntity.fieldsToExclude.includes(fieldName)) {
+      continue;
+    }
+
     const entity = rootEntity.fieldsToPopulate.find(
       (x: any) => x.path === fieldName
     );
@@ -83,6 +88,10 @@ function _populateFields(
         select: select.join(" "),
       });
     }
+  }
+
+  if (!selectOptions.includes("_id")) {
+    selectOptions.push("_id");
   }
 
   return {

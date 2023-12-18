@@ -23,7 +23,6 @@ const typeDefs = gql`
       mobile: String!
       discord: String!
     ): User!
-    resetPassword: Void
     deleteAccount: Void
 
     createGroup(
@@ -64,6 +63,7 @@ const typeDefs = gql`
     bio: String!
     mobile: String!
     discord: String!
+    groups: [Group!]!
   }
 
   type Group {

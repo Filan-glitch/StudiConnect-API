@@ -19,6 +19,7 @@ const Session = mongoose.model(
 
 export const SessionModelConfig: EntityConfig = {
   fieldsToPopulate: [],
+  fieldsToExclude: [],
   model: Session,
   schemaName,
 };

@@ -22,6 +22,7 @@ const User = mongoose.model(
 
 export const UserModelConfig: EntityConfig = {
   fieldsToPopulate: [],
+  fieldsToExclude: ["groups"],
   model: User,
   schemaName,
 };

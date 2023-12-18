@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 import GroupTO, { mapGroupTO } from "../model/to/group_to";
-import { queryOneByID } from "../../core/dataaccess/query_builder";
+import { queryOneByID, query } from "../../core/dataaccess/query_builder";
 import { GroupModelConfig } from "../../dataaccess/schema/group";
 import NotFoundError from "../model/exceptions/not_found";
 import User from "../../dataaccess/schema/user";
@@ -63,4 +63,11 @@ export async function searchGroups(
   }
 
   return results;
+}
+
+export async function findGroupsOfUser(
+  userID: string,
+  info: GraphQLResolveInfo
+): Promise<GroupTO[]> {
+  return await query(GroupModelConfig, { members: userID }, info);
 }

@@ -35,6 +35,7 @@ export const GroupModelConfig: EntityConfig = {
       model: UserModelConfig,
     },
   ],
+  fieldsToExclude: [],
   model: Group,
   schemaName,
 };

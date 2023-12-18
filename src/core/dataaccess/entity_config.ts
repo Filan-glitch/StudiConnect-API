@@ -5,7 +5,7 @@ export default interface EntityConfig {
     path: string;
     model: EntityConfig;
   }[];
-
+  fieldsToExclude: string[];
   model: mongoose.Model<any>;
 
   schemaName: string;
