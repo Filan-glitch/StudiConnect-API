@@ -59,7 +59,7 @@ export async function searchGroups(
       throw new NotFoundError("Die Gruppe konnte nicht gefunden werden.");
     }
 
-    results.push(mapGroupTO(group));
+    results.push(group);
   }
 
   return results;
