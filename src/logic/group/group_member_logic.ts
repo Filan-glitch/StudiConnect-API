@@ -111,3 +111,35 @@ export async function removeMember(
 
   await group.save();
 }
+
+export async function removeJoinRequest(
+  groupID: string,
+  user: string,
+  currentUser: string
+): Promise<void> {
+  const group = await Group.findById(groupID);
+
+  if (group == null) {
+    throw new NotFoundError("Die Gruppe konnte nicht gefunden werden.");
+  }
+
+  if (group.creator?.toString() !== currentUser) {
+    throw new NoPermissionError("Sie sind nicht der Ersteller dieser Gruppe.");
+  }
+
+  if (
+    !group.joinRequests
+      .map((joinRequest: Types.ObjectId) => joinRequest.toString())
+      .includes(user)
+  ) {
+    throw new NotFoundError("Sie haben keine Beitrittsanfrage gestellt.");
+  }
+
+  group.joinRequests = group.joinRequests.filter(
+    (joinRequest: Types.ObjectId) => joinRequest.toString() !== user
+  );
+
+  group.markModified("joinRequests");
+
+  await group.save();
+}

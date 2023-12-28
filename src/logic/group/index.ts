@@ -9,7 +9,12 @@ import {
   setGroupImage,
   deleteGroupImage,
 } from "./group_image_logic";
-import { joinGroup, addMember, removeMember } from "./group_member_logic";
+import {
+  joinGroup,
+  addMember,
+  removeMember,
+  removeJoinRequest,
+} from "./group_member_logic";
 
 export default {
   findGroupByID,
@@ -21,6 +26,7 @@ export default {
   joinGroup,
   addMember,
   removeMember,
+  removeJoinRequest,
   getGroupImage,
   setGroupImage,
   deleteGroupImage,

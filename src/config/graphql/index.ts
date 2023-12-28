@@ -13,6 +13,7 @@ import {
   joinGroup,
   addMember,
   removeMember,
+  removeJoinRequest,
 } from "../../api/graphql/mutations/groups";
 import { updateProfile } from "../../api/graphql/mutations/users";
 import { login, logout } from "../../api/graphql/mutations/auth";
@@ -42,6 +43,7 @@ export const resolvers = {
     joinGroup,
     addMember,
     removeMember,
+    removeJoinRequest,
   },
 };
 

@@ -185,3 +185,28 @@ export async function removeMember(
     throw error;
   }
 }
+
+export async function removeJoinRequest(
+  _parent: unknown,
+  args: { id: string; user: string },
+  context: AppContext,
+  _info: GraphQLResolveInfo
+): Promise<void> {
+  const { id, user } = args;
+  const { userID } = context;
+
+  if (userID == undefined) {
+    throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
+  }
+
+  try {
+    await logic.removeJoinRequest(id, user, userID);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      throw new NotFoundGraphQlError(error.message);
+    } else if (error instanceof NoPermissionError) {
+      throw new AuthenticationGraphQlError(error.message);
+    }
+    throw error;
+  }
+}

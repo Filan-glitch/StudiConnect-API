@@ -42,8 +42,9 @@ const typeDefs = gql`
     ): Group!
     deleteGroup(id: ID!): Void
     joinGroup(id: ID!): Void
-    addMember(id: ID!, user: ID!): Group!
-    removeMember(id: ID!, user: ID!): Group
+    addMember(id: ID!, user: ID!): Void
+    removeMember(id: ID!, user: ID!): Void
+    removeJoinRequest(id: ID!, user: ID!): Void
   }
 
   type Session {
