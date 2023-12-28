@@ -15,6 +15,16 @@ export default interface GroupTO {
 }
 
 export function mapGroupTO(group: any): GroupTO {
+  let createdAt: string | undefined;
+
+  if (group.createdAt !== undefined) {
+    if (typeof group.createdAt === "string") {
+      createdAt = group.createdAt;
+    } else {
+      createdAt = moment(group.createdAt).format("yyyy-MM-DD");
+    }
+  }
+
   return {
     id: group.id?.toString(),
     title: group.title,
@@ -25,10 +35,7 @@ export function mapGroupTO(group: any): GroupTO {
     joinRequests: group.joinRequests?.map((joinRequest: any) =>
       mapUserTO(joinRequest)
     ),
-    createdAt:
-      group.createdAt === undefined
-        ? undefined
-        : moment(group.createdAt).format("yyyy-MM-DD"),
+    createdAt,
     lat: group.lat,
     lon: group.lon,
   };

@@ -69,5 +69,7 @@ export async function findGroupsOfUser(
   userID: string,
   info: GraphQLResolveInfo
 ): Promise<GroupTO[]> {
-  return await query(GroupModelConfig, { members: userID }, info);
+  return (await query(GroupModelConfig, { members: userID }, info)).map(
+    (group: any) => mapGroupTO(group)
+  );
 }
