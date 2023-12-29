@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <title>StudiConnect</title>
+  <meta name="application-name" content="StudiConnect" />
+  <meta name="msapplication-tooltip" content="StudiConnect" />
+  <meta name="apple-mobile-web-app-title" content="StudiConnect" />
+
+  <link rel="icon" type="image/vnd.microsoft.icon" href="images/icon.png" />
+  <link rel="apple-touch-icon" href="images/icon.png" />
+  <meta name="msapplication-TileImage" content="images/icon.png" />
+
+  <meta name="msapplication-starturl" content="https://studiconnect.janbellenberg.de/" />
+
+  <meta name="theme-color" content="#006d9c" />
+  <meta name="msapplication-TileColor" content="#006d9c">
+  <meta name="msapplication-navbutton-color" content="#006d9c">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+
+  <meta name="author" content="Jan Bellenberg, Finn Dilan" />
+  <meta name="publisher" content="Jan Bellenberg, Finn Dilan" />
+  <meta name="copyright" content="2023 © Jan Bellenberg, Finn Dilan" />
+
+  <meta name="robots" content="index, follow" />
+  <meta name="revisit-after" content="5 days" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style/style.css">
+
+  <style>
+    #screenshot {
+      margin: 2em auto 0 auto;
+      padding: 0;
+      display: block;
+      box-shadow: 0px 0px 20px #000000;
+      border-radius: 6px;
+      max-height: 80vh;
+      max-width: calc(100vw - 2em);
+      transform: perspective(900px) rotateX(10deg) rotateY(-10deg);
+      transition: 0.5s transform;
+    }
+
+    #screenshot:hover {
+      transform: none;
+      transition: 0.5s transform;
+    }
+
+    #badges {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 2em;
+    }
+
+    #android-badge {
+      display: block;
+      margin: 0 1em 0 0;
+      height: 70px;
+    }
+
+    #ios-badge {
+      height: 60px;
+      display: block;
+      margin: 0 0 0 1em;
+    }
+
+    main {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    @media screen and (max-width: 800px) {
+      body {
+        padding: 0;
+      }
+
+      main {
+        display: block;
+      }
+
+      footer {
+        display: block;
+        position: inherit;
+        margin: 2em 0 0 0;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      #badges {
+        flex: 1;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      #android-badge,
+      #ios-badge {
+        margin: 0 2em;
+      }
+
+      #screenshot {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <main>
+    <section>
+
+      <h1>StudiConnect</h1>
+      <h2>- Findet Eure Lerngruppe -</h2>
+
+      <div id="badges">
+        <a target="_blank"
+          href='https://play.google.com/store/apps/details?id=de.janbellenberg.studiconnect&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+          <img src="images/google-play-badge.png" alt="Jetzt bei Google Play" id="android-badge" />
+        </a>
+
+        <a target="_blank" href='https://apps.apple.com/app/'>
+          <img src="images/app-store-badge.svg" alt="Laden im App Store" id="ios-badge" />
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <img id="screenshot" src="images/screenshot.webp" alt="Screenshot" />
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div><a href="/impress" role="link" title="Impressum">Impressum</a></div>
+    <div><a href="/disclaimer" role="link" title="Impressum">Haftungsbeschränkungen</a></div>
+    <div>Copyright &copy Jan Bellenberg & Finn Dilan 2023</div>
+    <div><a href="/terms" role="link" title="Nutzungsbedingungen">Nutzungsbedingungen</a></div>
+    <div><a href="/privacy" role="link" title="Datenschutz">Datenschutz</a></div>
+  </footer>
+
+</body>
+
+</html>

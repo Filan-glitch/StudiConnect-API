@@ -24,7 +24,6 @@ RUN npm install --production
 
 COPY --from=builder /server/build .
 COPY --chown=node:node firebase-private.pem .
-COPY --chown=node:node data/ /data/
 COPY --chown=node:node .env.prod .env
 
 EXPOSE 8080

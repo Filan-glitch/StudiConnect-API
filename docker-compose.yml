@@ -1,113 +1,101 @@
 version: "3.8"
 services:
   proxy:
-    image: studiconnect-proxy:latest
     container_name: studiconnect-proxy
+    image: studiconnect-proxy:latest
     mem_limit: 1gb
     mem_reservation: 200m
-    cpu_count: 1
-    cpu_percent: 50
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost/health" ]
       interval: 1m
       timeout: 10s
     depends_on:
-      - frontend
+      - web
       - backend
     volumes:
       - ~/studiconnect-appdata/log/proxy:/var/log/nginx
     ports:
-      - "127.0.0.1:80:80"
+      - "127.0.0.1:81:80"
     networks:
       main:
         ipv4_address: 192.168.10.2
         ipv6_address: fc00:1::2
 
-  frontend:
-    image: studiconnect-frontend:latest
-    container_name: studiconnect-frontend
+  web:
+    container_name: studiconnect-web
+    image: studiconnect-web:latest
     mem_limit: 100m
     mem_reservation: 50m
-    cpu_count: 1
-    cpu_percent: 50
     restart: on-failure
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost/health" ]
       interval: 1m
       timeout: 10s
-    depends_on:
-      - backend
+    volumes:
+      - ~/studiconnect-appdata/log/web:/var/log/nginx
     networks:
       main:
         ipv4_address: 192.168.10.3
         ipv6_address: fc00:1::3
 
   backend:
-    image: studiconnect-backend:latest
     container_name: studiconnect-backend
+    image: studiconnect-backend:latest
     depends_on:
-      - db
-      - redis
-    # env_file:
-    #  - .env.prod
+      - mongo
+      - elasticsearch
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 1m
       timeout: 10s
     mem_limit: 200m
     mem_reservation: 50m
-    cpu_count: 1
-    cpu_percent: 50
     restart: on-failure
     user: "node:node"
     volumes:
-      - ./data:/data:777
+      - ~/studiconnect-appdata/public:/public:777
     networks:
       main:
         ipv4_address: 192.168.10.4
         ipv6_address: fc00:1::4
 
   mongo:
-    image: studiconnect-db:latest
+    image: mongo:7.0-rc
     container_name: studiconnect-db
-    ports:
-      - "127.0.0.1:27017:27017"
     healthcheck:
       test: 'bash -c "if mongo --eval ''quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)''; then exit 0; fi; exit 1;"'
       interval: 1m
       timeout: 10s
     mem_limit: 200m
     mem_reservation: 50m
-    cpu_count: 1
-    cpu_percent: 50
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=studiconnect
+      - MONGO_INITDB_ROOT_PASSWORD=Gg4beqQaIPw01xf7QcGh7JL7lnvJuJBI2Ehr
     volumes:
       - ~/studiconnect-appdata/mongo:/data/db
+      - ~/studiconnect-appdata/log/mongo:/var/log/mongodb
     networks:
       main:
         ipv4_address: 192.168.10.5
         ipv6_address: fc00:1::7
     restart: on-failure
-
-  redis:
-    image: studiconnect-redis:latest
-    container_name: studiconnect-redis
-    ports:
-      - "127.0.0.1:6379:6379"
+  
+  elasticsearch:
+    container_name: studiconnect-elasticsearch
+    image: studiconnect-elasticsearch:latest
+    mem_limit: 600m
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
     volumes:
-      - ~/studiconnect-appdata/redis:/data
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 1m
-      timeout: 10s
-    mem_limit: 200m
-    mem_reservation: 50m
-    cpu_count: 1
-    cpu_percent: 50
+      - ~/studiconnect-appdata/log/elasticsearch:/usr/share/elasticsearch/logs
+      - ~/studiconnect-appdata/elasticsearch:/usr/share/elasticsearch/data
     networks:
       main:
         ipv4_address: 192.168.10.6
-        ipv6_address: fc00:1::6
-
+        ipv6_address: fc00:1::8
+  
 networks:
   main:
     enable_ipv6: true
