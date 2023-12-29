@@ -63,7 +63,7 @@ services:
     image: mongo:7.0-rc
     container_name: studiconnect-db
     healthcheck:
-      test: 'bash -c "if mongo --eval ''quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)''; then exit 0; fi; exit 1;"'
+      test: "bash -c \"if mongosh --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'; then exit 0; fi; exit 1;\""
       interval: 1m
       timeout: 10s
     mem_limit: 200m
