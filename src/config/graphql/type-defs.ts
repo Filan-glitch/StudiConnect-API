@@ -78,6 +78,7 @@ const typeDefs = gql`
     createdAt: String!
     lat: Float!
     lon: Float!
+    imageExists: Boolean!
   }
 `;
 

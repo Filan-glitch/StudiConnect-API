@@ -35,7 +35,7 @@ export const GroupModelConfig: EntityConfig = {
       model: UserModelConfig,
     },
   ],
-  fieldsToExclude: [],
+  fieldsToExclude: ["imageExists"],
   model: Group,
   schemaName,
 };

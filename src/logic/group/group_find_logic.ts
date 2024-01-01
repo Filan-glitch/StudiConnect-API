@@ -5,6 +5,7 @@ import { GroupModelConfig } from "../../dataaccess/schema/group";
 import NotFoundError from "../model/exceptions/not_found";
 import User from "../../dataaccess/schema/user";
 import { searchGroupsFromElasticsearch } from "../../dataaccess/elasticsearch/groups";
+import { groupImageExists } from "./group_image_logic";
 
 export async function findGroupByID(
   id: string,
@@ -16,7 +17,9 @@ export async function findGroupByID(
     throw new NotFoundError("Die Gruppe konnte nicht gefunden werden.");
   }
 
-  return mapGroupTO(entity);
+  let to = mapGroupTO(entity);
+  to.imageExists = groupImageExists(id);
+  return to;
 }
 
 export async function searchGroups(
@@ -69,7 +72,10 @@ export async function findGroupsOfUser(
   userID: string,
   info: GraphQLResolveInfo
 ): Promise<GroupTO[]> {
-  return (await query(GroupModelConfig, { members: userID }, info)).map(
-    (group: any) => mapGroupTO(group)
-  );
+  return (await query(GroupModelConfig, { members: userID }, info))
+    .map((group: any) => mapGroupTO(group))
+    .map((group: GroupTO) => {
+      group.imageExists = groupImageExists(group.id!);
+      return group;
+    });
 }

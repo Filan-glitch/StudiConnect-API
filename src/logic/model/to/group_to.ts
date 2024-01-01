@@ -12,6 +12,7 @@ export default interface GroupTO {
   createdAt: string | undefined;
   lat: number | undefined;
   lon: number | undefined;
+  imageExists: boolean | undefined;
 }
 
 export function mapGroupTO(group: any): GroupTO {
@@ -38,5 +39,6 @@ export function mapGroupTO(group: any): GroupTO {
     createdAt,
     lat: group.lat,
     lon: group.lon,
+    imageExists: undefined,
   };
 }

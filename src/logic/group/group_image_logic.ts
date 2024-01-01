@@ -4,6 +4,11 @@ import NoPermissionError from "../model/exceptions/no_permission";
 import GroupModel from "../../dataaccess/schema/group";
 import NotFoundError from "../model/exceptions/not_found";
 
+export function groupImageExists(groupId: string): boolean {
+  let path = `${process.env.PUBLIC_FILES}/group-images/${groupId}.jpg`;
+  return existsSync(path);
+}
+
 export function getGroupImage(groupId: string): Buffer | null {
   let path = `${process.env.PUBLIC_FILES}/group-images/${groupId}.jpg`;
   if (existsSync(path)) {
