@@ -1,19 +1,22 @@
 import { ExpressContextFunctionArgument } from "@apollo/server/dist/esm/express4";
 import AppContext from "./model/app_context";
+import authentication from "../../logic/authentication_logic";
 
 async function buildApolloContext(
   args: ExpressContextFunctionArgument
 ): Promise<AppContext> {
-  //let req = args.req
-  //console.log(JSON.stringify(req));
-  // const token = req.headers["session"]?.toString();
-  // const userID = await getUserIDBySession(token ?? "");
-  const context: AppContext = {
-    userID: "6543b31be1c4c473ea66428f",
-    sessionID: "655f5bb35c7955d2056cce62",
-  };
+  let req = args.req;
+  const sessionID: string | undefined = req.cookies["session"]?.toString();
 
-  return context;
+  if (sessionID == undefined)
+    return { userID: undefined, sessionID: undefined };
+
+  const userID = await authentication.getUserIdBySession(sessionID);
+
+  return {
+    userID,
+    sessionID,
+  };
 }
 
 export default buildApolloContext;

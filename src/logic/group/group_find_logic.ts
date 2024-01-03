@@ -4,7 +4,10 @@ import { queryOneByID, query } from "../../core/dataaccess/query_builder";
 import { GroupModelConfig } from "../../dataaccess/schema/group";
 import NotFoundError from "../model/exceptions/not_found";
 import User from "../../dataaccess/schema/user";
-import { searchGroupsFromElasticsearch } from "../../dataaccess/elasticsearch/groups";
+import {
+  deleteGroupIndex,
+  searchGroupsFromElasticsearch,
+} from "../../dataaccess/elasticsearch/groups";
 import { groupImageExists } from "./group_image_logic";
 
 export async function findGroupByID(
@@ -56,13 +59,17 @@ export async function searchGroups(
   let results = [];
 
   for (let result of searchResults) {
-    let group = await findGroupByID(result.group_id, requestInfo);
+    try {
+      let group = await findGroupByID(result.group_id, requestInfo);
 
-    if (group == null) {
-      throw new NotFoundError("Die Gruppe konnte nicht gefunden werden.");
+      results.push(group);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        deleteGroupIndex(result.group_id);
+        continue;
+      }
+      throw e;
     }
-
-    results.push(group);
   }
 
   return results;

@@ -2,7 +2,7 @@ import { ApolloServerPlugin } from "@apollo/server";
 import AuthenticationGraphQlError from "../../../api/graphql/errors/authentication";
 import AppContext from "../model/app_context";
 
-const whitelist: string[] = ["login"];
+const whitelist: string[] = ["Login"];
 
 const AuthenticationPlugin: ApolloServerPlugin<AppContext> = {
   async requestDidStart() {

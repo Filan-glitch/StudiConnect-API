@@ -5,7 +5,10 @@ const URL_WHITELIST: string[] = ["/api/graphql", "/health"];
 
 export default function authenticationMiddleware(): RequestHandler {
   return (req: Request, res: Response) => {
-    if (URL_WHITELIST.includes(req.originalUrl)) {
+    if (
+      URL_WHITELIST.includes(req.originalUrl) ||
+      (req.originalUrl.includes("/image") && req.method === "GET")
+    ) {
       req.next!();
       return;
     }

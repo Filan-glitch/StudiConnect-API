@@ -27,12 +27,12 @@ async function authenticate(token: string): Promise<SessionTO> {
     user = new UserModel();
     user._id = new Types.ObjectId();
     user.email = tokenDetails.email;
-    user.username = tokenDetails.display_name;
+    user.username = tokenDetails.display_name ?? "";
     user.verified = tokenDetails.email_verified ?? false;
     user.university = "";
     user.major = "";
-    user.lat = 0;
-    user.lon = 0;
+    user.lat = 0.0;
+    user.lon = 0.0;
     user.bio = "";
     user.mobile = "";
     user.discord = "";
@@ -59,7 +59,7 @@ async function logout(sessionID: string): Promise<void> {
 async function getUserIdBySession(
   sessionID: string
 ): Promise<string | undefined> {
-  return "6543b31be1c4c473ea66428f";
+  // TODO: remove return "6543b31be1c4c473ea66428f";
   const session = await SessionModel.findById(sessionID).exec();
   return session?.user?.toHexString();
 }

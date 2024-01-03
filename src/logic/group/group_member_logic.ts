@@ -3,6 +3,7 @@ import NotFoundError from "../model/exceptions/not_found";
 import NoPermissionError from "../model/exceptions/no_permission";
 import DuplicateError from "../model/exceptions/duplicate";
 import Group from "../../dataaccess/schema/group";
+import { deleteGroup } from "./group_edit_logic";
 
 export async function joinGroup(id: string, userID: string): Promise<void> {
   const group = await Group.findById(id);
@@ -92,16 +93,16 @@ export async function removeMember(
     throw new NoPermissionError("Sie sind kein Mitglied dieser Gruppe.");
   }
 
+  // delete group, if no members are left
+  if (group.members.length === 1) {
+    await deleteGroup(id, userID);
+    return;
+  }
+
   group.members = group.members.filter(
     (member: Types.ObjectId) => member.toString() !== user
   );
   group.markModified("members");
-
-  // delete group, if no members are left
-  if (group.members.length === 0) {
-    await Group.findByIdAndDelete(id);
-    return;
-  }
 
   // set new creator, if old creator leaves
   if (group.creator == null || group.creator.toString() === user) {

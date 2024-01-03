@@ -2,6 +2,7 @@ import express from "express";
 import routes from "../../api/rest";
 import { addApolloMiddleware } from "../graphql";
 import bodyParser from "body-parser";
+import authenticationMiddleware from "../../core/rest/authentication_middleware";
 
 const cookieParser = require("cookie-parser");
 
@@ -16,7 +17,7 @@ async function expressServerSetup(): Promise<number> {
   );
   app.use(express.json());
   app.use(cookieParser());
-  //app.use(authenticationMiddleware());
+  app.use(authenticationMiddleware());
 
   app.get("/health", routes.health);
   app.get("/api/user/:uid/image", routes.getProfileImage);
