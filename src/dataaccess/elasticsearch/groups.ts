@@ -10,6 +10,15 @@ export async function searchGroupsFromElasticsearch(
 ): Promise<any[]> {
   const client = getElasticsearchClient();
 
+  if (
+    university.trim() === "" ||
+    major.trim() === "" ||
+    module.trim() === "" ||
+    radius === 0
+  ) {
+    return [];
+  }
+
   const response = await client.search({
     index: "groups",
     body: {
