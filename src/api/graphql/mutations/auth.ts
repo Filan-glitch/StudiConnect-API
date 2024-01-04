@@ -15,6 +15,15 @@ export async function login(
   return logic.authenticate(token);
 }
 
+export async function loginAsGuest(
+  _parent: unknown,
+  args: unknown,
+  _context: AppContext,
+  _info: GraphQLResolveInfo
+): Promise<SessionTO> {
+  return logic.authenticateGuest();
+}
+
 export async function logout(
   _parent: unknown,
   _args: unknown,

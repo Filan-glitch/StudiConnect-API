@@ -15,8 +15,11 @@ import {
   removeMember,
   removeJoinRequest,
 } from "../../api/graphql/mutations/groups";
-import { updateProfile } from "../../api/graphql/mutations/users";
-import { login, logout } from "../../api/graphql/mutations/auth";
+import {
+  deleteAccount,
+  updateProfile,
+} from "../../api/graphql/mutations/users";
+import { login, loginAsGuest, logout } from "../../api/graphql/mutations/auth";
 import { RequestHandler } from "express";
 import LifecyclePlugin from "../../core/graphql/plugins/lifecycle";
 import AuthenticationPlugin from "../../core/graphql/plugins/authentication";
@@ -35,8 +38,10 @@ export const resolvers = {
 
   Mutation: {
     login,
+    loginAsGuest,
     logout,
     updateProfile,
+    deleteAccount,
     createGroup,
     updateGroup,
     deleteGroup,

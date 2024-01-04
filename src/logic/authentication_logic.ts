@@ -3,9 +3,11 @@ import { getFirebaseAuth } from "../config/firebase";
 import UserModel from "../dataaccess/schema/user";
 import SessionModel from "../dataaccess/schema/session";
 import SessionTO from "./model/to/session_to";
+import { deleteAccount } from "./user/user_edit_logic";
 
 export default {
   authenticate,
+  authenticateGuest,
   logout,
   getUserIdBySession,
 };
@@ -36,6 +38,7 @@ async function authenticate(token: string): Promise<SessionTO> {
     user.bio = "";
     user.mobile = "";
     user.discord = "";
+    user.isGuest = false;
 
     await user.save();
   }
@@ -52,14 +55,56 @@ async function authenticate(token: string): Promise<SessionTO> {
   };
 }
 
+async function authenticateGuest(): Promise<SessionTO> {
+  let user = new UserModel();
+  user._id = new Types.ObjectId();
+  user.email = "guest@studiconnect.de";
+  user.username = "Gast";
+  user.verified = false;
+  user.university = "Hochschule Ruhr West";
+  user.major = "Test";
+  user.lat = 51.527248;
+  user.lon = 6.927181;
+  user.bio = "Dies ist ein Gastaccount.";
+  user.mobile = "123456789";
+  user.discord = "";
+  user.isGuest = true;
+
+  await user.save();
+
+  const session = new SessionModel();
+  session._id = new Types.ObjectId();
+  session.user = user._id;
+
+  await session.save();
+
+  return {
+    sessionID: session._id.toHexString(),
+    user: user._id?.toHexString(),
+  };
+}
+
 async function logout(sessionID: string): Promise<void> {
+  const session = await SessionModel.findById(sessionID).exec();
+  if (session == null) {
+    return;
+  }
+
+  let user = await UserModel.findById(session.user).exec();
+  if (user == null) {
+    return;
+  }
+
+  if (user.isGuest) {
+    await deleteAccount(user._id!.toHexString());
+  }
+
   await SessionModel.findByIdAndDelete(sessionID).exec();
 }
 
 async function getUserIdBySession(
   sessionID: string
 ): Promise<string | undefined> {
-  // TODO: remove return "6543b31be1c4c473ea66428f";
   const session = await SessionModel.findById(sessionID).exec();
   return session?.user?.toHexString();
 }

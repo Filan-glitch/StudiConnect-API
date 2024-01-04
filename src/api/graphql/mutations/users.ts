@@ -39,3 +39,18 @@ export async function updateProfile(
 
   return logic.findUserByID(userID, userID, info);
 }
+
+export async function deleteAccount(
+  _parent: unknown,
+  _args: unknown,
+  context: AppContext,
+  _info: GraphQLResolveInfo
+): Promise<void> {
+  const { userID } = context;
+
+  if (userID == undefined) {
+    throw new AuthenticationGraphQlError("Sie sind nicht angemeldet.");
+  }
+
+  await logic.deleteAccount(userID);
+}

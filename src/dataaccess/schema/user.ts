@@ -17,6 +17,7 @@ const User = mongoose.model(
     bio: String,
     mobile: String,
     discord: String,
+    isGuest: Boolean,
   })
 );
 

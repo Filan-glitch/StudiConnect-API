@@ -11,6 +11,7 @@ const typeDefs = gql`
 
   type Mutation {
     login(token: String!): Session!
+    loginAsGuest: Session!
     logout: Void
 
     updateProfile(

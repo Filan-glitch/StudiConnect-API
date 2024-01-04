@@ -1,4 +1,4 @@
-import { updateProfile } from "./user_edit_logic";
+import { deleteAccount, updateProfile } from "./user_edit_logic";
 import { findUserByID } from "./user_find_logic";
 import {
   deleteProfileImage,
@@ -9,6 +9,7 @@ import {
 export default {
   findUserByID,
   updateProfile,
+  deleteAccount,
   getProfileImage,
   setProfileImage,
   deleteProfileImage,
