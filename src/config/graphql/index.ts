@@ -24,6 +24,8 @@ import { RequestHandler } from "express";
 import LifecyclePlugin from "../../core/graphql/plugins/lifecycle";
 import AuthenticationPlugin from "../../core/graphql/plugins/authentication";
 import buildApolloContext from "../../core/graphql/context_builder";
+import { messages } from "../../api/graphql/queries/messages";
+import { sendMessage } from "../../api/graphql/mutations/messages";
 
 export const resolvers = {
   Void: Void,
@@ -31,6 +33,7 @@ export const resolvers = {
     user,
     group,
     searchGroups,
+    messages,
   },
   User: {
     groups: groupsOfUser,
@@ -49,6 +52,7 @@ export const resolvers = {
     addMember,
     removeMember,
     removeJoinRequest,
+    sendMessage,
   },
 };
 

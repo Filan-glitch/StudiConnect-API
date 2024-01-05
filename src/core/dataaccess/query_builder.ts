@@ -2,10 +2,13 @@ import { FieldNode, GraphQLResolveInfo, SelectionNode } from "graphql";
 import { PopulateOptions } from "mongoose";
 import EntityConfig from "./entity_config";
 
+const resultsPerPage = 10;
+
 export function query(
   entity: EntityConfig,
   params: any,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
+  page?: number
 ): Promise<any> {
   if (info.fieldNodes.length !== 1) {
     throw new Error("Invalid number of requests");
@@ -20,6 +23,10 @@ export function query(
     .find(params)
     .populate(populate)
     .select(select.join(" "));
+
+  if (page !== undefined) {
+    query.skip(page * resultsPerPage).limit(resultsPerPage);
+  }
 
   return query;
 }
