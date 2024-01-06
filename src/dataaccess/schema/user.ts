@@ -3,6 +3,9 @@ import EntityConfig from "../../core/dataaccess/entity_config";
 
 const schemaName = "users";
 
+/**
+ * Schema definition for the user schema.
+ */
 const User = mongoose.model(
   schemaName,
   new Schema({
@@ -21,6 +24,9 @@ const User = mongoose.model(
   })
 );
 
+/**
+ * Configuration for the user schema.
+ */
 export const UserModelConfig: EntityConfig = {
   fieldsToPopulate: [],
   fieldsToExclude: ["groups"],

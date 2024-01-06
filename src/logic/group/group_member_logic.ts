@@ -5,6 +5,13 @@ import DuplicateError from "../model/exceptions/duplicate";
 import Group from "../../dataaccess/schema/group";
 import { deleteGroup } from "./group_edit_logic";
 
+/**
+ * Creates a join request for a group.
+ * @param id id of the group
+ * @param userID id of the user who issues the request
+ * @throws NotFoundError if the group does not exist
+ * @throws DuplicateError if the user is already a member of the group or has already sent a join request
+ */
 export async function joinGroup(id: string, userID: string): Promise<void> {
   const group = await Group.findById(id);
 
@@ -36,6 +43,15 @@ export async function joinGroup(id: string, userID: string): Promise<void> {
   await group.save();
 }
 
+/**
+ * Adds a member to a group.
+ * @param id id of the group
+ * @param user id of the user to be added
+ * @param userID id of the user who issues the request
+ * @throws NotFoundError if the group does not exist
+ * @throws NoPermissionError if the user is not allowed to add members to the group
+ * @throws DuplicateError if the user is already a member of the group
+ */
 export async function addMember(
   id: string,
   user: string,
@@ -74,6 +90,14 @@ export async function addMember(
   await group.save();
 }
 
+/**
+ * Removes a member from a group.
+ * @param id id of the group
+ * @param user id of the user to be removed
+ * @param userID id of the user who issues the request
+ * @throws NotFoundError if the group does not exist
+ * @throws NoPermissionError if the user is not allowed to remove members from the group
+ */
 export async function removeMember(
   id: string,
   user: string,
@@ -113,6 +137,14 @@ export async function removeMember(
   await group.save();
 }
 
+/**
+ * Removes a join request from a group without accepting it.
+ * @param id id of the group
+ * @param user id of the user to be removed
+ * @param currentUser id of the user who issues the request
+ * @throws NotFoundError if the group or the join request does not exist
+ * @throws NoPermissionError if the user is not allowed to remove join requests from the group
+ */
 export async function removeJoinRequest(
   groupID: string,
   user: string,

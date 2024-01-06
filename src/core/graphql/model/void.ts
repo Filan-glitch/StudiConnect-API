@@ -1,5 +1,8 @@
 import { GraphQLScalarType } from "graphql";
 
+/**
+ * Represents the void type in GraphQL.
+ */
 export const Void = new GraphQLScalarType({
   name: "Void",
 

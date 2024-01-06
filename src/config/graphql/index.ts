@@ -22,9 +22,11 @@ import {
 import { login, loginAsGuest, logout } from "../../api/graphql/mutations/auth";
 import { RequestHandler } from "express";
 import LifecyclePlugin from "../../core/graphql/plugins/lifecycle";
-import AuthenticationPlugin from "../../core/graphql/plugins/authentication";
 import buildApolloContext from "../../core/graphql/context_builder";
 
+/**
+ * Mapping of all GraphQL resolvers.
+ */
 export const resolvers = {
   Void: Void,
   Query: {
@@ -52,12 +54,17 @@ export const resolvers = {
   },
 };
 
+/**
+ * Adds the Apollo GraphQL middleware to the express server.
+ * @returns The Apollo GraphQL middleware.
+ */
 export async function addApolloMiddleware(): Promise<RequestHandler> {
+  // setup graphql server
   const graphql = new ApolloServer<AppContext>({
     typeDefs,
     resolvers,
     includeStacktraceInErrorResponses: process.env.DEBUGGING !== undefined,
-    plugins: [LifecyclePlugin, AuthenticationPlugin, HttpStatusPlugin],
+    plugins: [LifecyclePlugin, HttpStatusPlugin],
   });
 
   await graphql.start();

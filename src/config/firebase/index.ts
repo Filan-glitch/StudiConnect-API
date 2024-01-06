@@ -5,6 +5,10 @@ import { readFileSync } from "fs";
 
 let firebaseAuth: Auth | undefined;
 
+/**
+ * Returns the firebase auth instance.
+ * @returns firebase auth instance
+ */
 export function getFirebaseAuth() {
   if (firebaseAuth === undefined) {
     throw new Error("Firebase not initialized");
@@ -13,6 +17,9 @@ export function getFirebaseAuth() {
   return firebaseAuth;
 }
 
+/**
+ * Initializes the firebase app.
+ */
 export function firebaseSetup() {
   let instance = initializeApp({
     credential: cert({
