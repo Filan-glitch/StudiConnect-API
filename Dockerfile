@@ -20,7 +20,7 @@ WORKDIR /server
 
 COPY package.json .
 USER node
-RUN npm install --production
+RUN npm install --omit=dev
 
 COPY --from=builder /server/build .
 COPY --chown=node:node firebase-private.pem .
