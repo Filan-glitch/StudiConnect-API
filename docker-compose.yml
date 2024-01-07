@@ -43,7 +43,7 @@ services:
     image: studiconnect-backend:latest
     depends_on:
       - mongo
-      - elasticsearch
+    #  - elasticsearch
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 1m
@@ -80,21 +80,21 @@ services:
         ipv6_address: fc00:1::7
     restart: on-failure
   
-  elasticsearch:
-    container_name: studiconnect-elasticsearch
-    image: studiconnect-elasticsearch:latest
-    mem_limit: 600m
-    environment:
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
-    volumes:
-      - ~/studiconnect-appdata/log/elasticsearch:/usr/share/elasticsearch/logs
-      - ~/studiconnect-appdata/elasticsearch:/usr/share/elasticsearch/data
-    networks:
-      main:
-        ipv4_address: 192.168.10.6
-        ipv6_address: fc00:1::8
+  # elasticsearch:
+  #   container_name: studiconnect-elasticsearch
+  #   image: studiconnect-elasticsearch:latest
+  #   mem_limit: 600m
+  #   environment:
+  #     - discovery.type=single-node
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+  #   volumes:
+  #     - ~/studiconnect-appdata/log/elasticsearch:/usr/share/elasticsearch/logs
+  #     - ~/studiconnect-appdata/elasticsearch:/usr/share/elasticsearch/data
+  #   networks:
+  #     main:
+  #       ipv4_address: 192.168.10.6
+  #       ipv6_address: fc00:1::8
   
 networks:
   main:
