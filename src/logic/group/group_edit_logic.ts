@@ -10,6 +10,16 @@ import {
 } from "../../dataaccess/elasticsearch/groups";
 import Location from "../model/location";
 
+/**
+ * Creates a new group in mongodb and elasticsearch with the given parameters.
+ * @param title title of the group
+ * @param description description of the group
+ * @param module module for the group
+ * @param location lat and lon of the group
+ * @param userID id of the user who issues the request
+ * @returns id of the created group
+ * @throws NotFoundError if the user does not exist
+ */
 export async function createGroup(
   title: string,
   description: string,
@@ -41,6 +51,7 @@ export async function createGroup(
     throw new Error("Es ist ein unerwarteter Fehler aufgetreten.");
   }
 
+  // index group in elasticsearch
   await createGroupIndex(
     group._id.toHexString(),
     user.university ?? "",
@@ -53,6 +64,16 @@ export async function createGroup(
   return group._id.toHexString();
 }
 
+/**
+ * This function updates the group with the given id with the given parameters.
+ * @param id id of the group
+ * @param title new title of the group
+ * @param description new description of the group
+ * @param location new location of the group
+ * @param module new module of the group
+ * @param userID id of the user who issues the request
+ * @returns id of the updated group
+ */
 export async function updateGroup(
   id: string,
   title: string,
@@ -92,6 +113,13 @@ export async function updateGroup(
   return id;
 }
 
+/**
+ * This function deletes the group with the given id.
+ * @param id id of the group
+ * @param userID id of the user who issues the request
+ * @throws NotFoundError if the group does not exist
+ * @throws NoPermissionError if the user is not a member of the group
+ */
 export async function deleteGroup(id: string, userID: string): Promise<void> {
   const group = await Group.findById(id);
   if (group == null) {
@@ -106,7 +134,9 @@ export async function deleteGroup(id: string, userID: string): Promise<void> {
     throw new NoPermissionError("Sie sind kein Mitglied dieser Gruppe.");
   }
 
+  // delete group in mongodb
   await Group.findByIdAndDelete(id);
 
+  // delete group in elasticsearch
   await deleteGroupIndex(id);
 }

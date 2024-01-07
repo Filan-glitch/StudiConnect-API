@@ -1,5 +1,8 @@
 import gql from "graphql-tag";
 
+/**
+ * GraphQL schema definition.
+ */
 const typeDefs = gql`
   scalar Void
 

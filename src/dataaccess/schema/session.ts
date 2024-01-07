@@ -4,6 +4,9 @@ import EntityConfig from "../../core/dataaccess/entity_config";
 
 const schemaName = "sessions";
 
+/**
+ * Schema definition for the session schema.
+ */
 const Session = mongoose.model(
   schemaName,
   new Schema({
@@ -17,6 +20,9 @@ const Session = mongoose.model(
   })
 );
 
+/**
+ * Configuration for the session schema.
+ */
 export const SessionModelConfig: EntityConfig = {
   fieldsToPopulate: [],
   fieldsToExclude: [],

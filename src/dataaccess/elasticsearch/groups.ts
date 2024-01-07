@@ -1,6 +1,15 @@
 import { getElasticsearchClient } from "../../config/elasticsearch";
 import Location from "../../logic/model/location";
 
+/**
+ * Searches for groups in the Elasticsearch database.
+ * @param university The university to search for.
+ * @param major The major to search for.
+ * @param module The module to search for.
+ * @param location The location to search for.
+ * @param radius The radius to search for.
+ * @returns The groups found.
+ */
 export async function searchGroupsFromElasticsearch(
   university: string,
   major: string,
@@ -10,6 +19,7 @@ export async function searchGroupsFromElasticsearch(
 ): Promise<any[]> {
   const client = getElasticsearchClient();
 
+  // return empty array if no search parameters are given
   if (
     university.trim() === "" ||
     major.trim() === "" ||
@@ -26,6 +36,7 @@ export async function searchGroupsFromElasticsearch(
       query: {
         bool: {
           should: [
+            // fuzzy search for university, major and module
             {
               query_string: {
                 query: `${university}~2*`,
@@ -47,6 +58,7 @@ export async function searchGroupsFromElasticsearch(
           ],
           filter: {
             geo_distance: {
+              // match location
               distance: `${radius}km`,
               location: {
                 lat: location.lat,
@@ -59,6 +71,7 @@ export async function searchGroupsFromElasticsearch(
     },
   });
 
+  // convert result format
   let results = response.hits.hits.map((hit: any) => {
     return {
       group_id: hit._source.group_id,
@@ -72,6 +85,16 @@ export async function searchGroupsFromElasticsearch(
   return results;
 }
 
+/**
+ * Creates a new group in the Elasticsearch database.
+ * @param group_id The id of the group from mongodb.
+ * @param university The university of the group.
+ * @param major The major of the group.
+ * @param module The module of the group.
+ * @param lat The latitude of the group.
+ * @param lon The longitude of the group.
+ * @returns The id of the created group.
+ */
 export async function createGroupIndex(
   group_id: string,
   university: string,
@@ -99,6 +122,10 @@ export async function createGroupIndex(
   return response._id;
 }
 
+/**
+ * Delete a group from the Elasticsearch database.
+ * @param group_id The id of the group to delete.
+ */
 export async function deleteGroupIndex(group_id: string): Promise<void> {
   const client = getElasticsearchClient();
 

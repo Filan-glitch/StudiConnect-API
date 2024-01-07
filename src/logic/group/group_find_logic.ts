@@ -10,6 +10,13 @@ import {
 } from "../../dataaccess/elasticsearch/groups";
 import { groupImageExists } from "./group_image_logic";
 
+/**
+ * Finds a group by its id.
+ * @param id The id of the group.
+ * @param requestInfo The GraphQLResolveInfo.
+ * @returns The group with the requested fields.
+ * @throws NotFoundError if the group does not exist.
+ */
 export async function findGroupByID(
   id: string,
   requestInfo: GraphQLResolveInfo
@@ -25,6 +32,17 @@ export async function findGroupByID(
   return to;
 }
 
+/**
+ * Finds a group by search criteria with elasticsearch.
+ * The parameters university, major and location come from the user.
+ * @param module The module of the group.
+ * @param radius The radius in which the group should be searched.
+ * @param userID The id of the user who issues the request.
+ * @param requestInfo The GraphQLResolveInfo.
+ * @returns The groups with the requested fields.
+ * @throws NotFoundError if the user does not exist.
+ * @throws Error if an unexpected error occurs.
+ */
 export async function searchGroups(
   module: string,
   radius: number,
@@ -37,6 +55,7 @@ export async function searchGroups(
     throw new NotFoundError("Der Nutzer konnte nicht gefunden werden.");
   }
 
+  // verify that the user has all required fields
   if (
     user.university == null ||
     user.major == null ||
@@ -46,6 +65,7 @@ export async function searchGroups(
     throw new Error("Es ist ein unerwarteter Fehler aufgetreten.");
   }
 
+  // search groups in elasticsearch
   let searchResults = await searchGroupsFromElasticsearch(
     user.university,
     user.major,
@@ -54,10 +74,12 @@ export async function searchGroups(
     radius
   );
 
+  // filter out groups with low score
   searchResults = searchResults.filter((result: any) => result.score > 1);
 
   let results = [];
 
+  // find groups in mongodb
   for (let result of searchResults) {
     try {
       let group = await findGroupByID(result.group_id, requestInfo);
@@ -75,6 +97,12 @@ export async function searchGroups(
   return results;
 }
 
+/**
+ * Finds all groups of a user.
+ * @param userID The id of the user.
+ * @param info The GraphQLResolveInfo.
+ * @returns The groups with the requested fields.
+ */
 export async function findGroupsOfUser(
   userID: string,
   info: GraphQLResolveInfo

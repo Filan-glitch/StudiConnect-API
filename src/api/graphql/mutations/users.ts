@@ -4,6 +4,15 @@ import AuthenticationGraphQlError from "../errors/authentication";
 import UserTO from "../../../logic/model/to/user_to";
 import logic from "../../../logic/user";
 
+/**
+ * GraphQL resolver for the `updateProfile` mutation.
+ * This mutation updates the profile of the user.
+ * @param _parent -not used-
+ * @param args The arguments of the mutation.
+ * @param context The context of the request.
+ * @param info The GraphQL resolve info.
+ * @returns The updated user.
+ */
 export async function updateProfile(
   _parent: unknown,
   args: {

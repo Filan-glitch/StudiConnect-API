@@ -1,6 +1,9 @@
 import moment from "moment";
 import UserTO, { mapUserTO } from "./user_to";
 
+/**
+ * Transfer object of a group.
+ */
 export default interface GroupTO {
   id: string | undefined;
   title: string | undefined;
@@ -15,6 +18,11 @@ export default interface GroupTO {
   imageExists: boolean | undefined;
 }
 
+/**
+ * Maps a group entity to a transfer object.
+ * @param group The group entity to map.
+ * @returns The transfer object.
+ */
 export function mapGroupTO(group: any): GroupTO {
   let createdAt: string | undefined;
 

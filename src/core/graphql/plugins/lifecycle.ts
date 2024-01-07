@@ -1,5 +1,8 @@
 import { ApolloServerPlugin } from "@apollo/server";
 
+/**
+ * Apollo plugin, which logs the lifecycle events of the GraphQL API.
+ */
 const LifecyclePlugin: ApolloServerPlugin = {
   async serverWillStart() {
     console.log("> GraphQL API starting");

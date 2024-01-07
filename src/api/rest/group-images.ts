@@ -4,6 +4,11 @@ import auth_logic from "../../logic/authentication_logic";
 import NotFoundError from "../../logic/model/exceptions/not_found";
 import NoPermissionError from "../../logic/model/exceptions/no_permission";
 
+/**
+ * API handler for fetching a group image.
+ * @param req express request
+ * @param res express response
+ */
 export const getGroupImage = async (req: Request, res: Response) => {
   const content = logic.getGroupImage(req.params.id);
 
@@ -15,6 +20,11 @@ export const getGroupImage = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * API handler for setting a group image.
+ * @param req express request
+ * @param res express response
+ */
 export const setGroupImage = async (req: Request, res: Response) => {
   let uid = await auth_logic.getUserIdBySession(req.cookies["session"]);
 
@@ -36,6 +46,11 @@ export const setGroupImage = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * API handler for deleting a group image.
+ * @param req express request
+ * @param res express response
+ */
 export const deleteGroupImage = async (req: Request, res: Response) => {
   let uid = await auth_logic.getUserIdBySession(req.cookies["session"]);
 

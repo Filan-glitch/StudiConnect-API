@@ -5,6 +5,18 @@ import { GroupModelConfig } from "../../dataaccess/schema/group";
 import { removeMember } from "../group/group_member_logic";
 import { SessionModelConfig } from "../../dataaccess/schema/session";
 
+/**
+ * Updates the profile of a user.
+ * @param id The id of the user.
+ * @param username The new username of the user.
+ * @param university The new university of the user.
+ * @param major The new major of the user.
+ * @param location The new location of the user.
+ * @param bio The new biography of the user.
+ * @param mobile The new mobile number of the user.
+ * @param discord The new discord id of the user.
+ * @throws NotFoundError if the user does not exist.
+ */
 export async function updateProfile(
   id: string,
   username: string,
@@ -41,6 +53,10 @@ export async function updateProfile(
   await user.save();
 }
 
+/**
+ * Deletes a user.
+ * @param id The id of the user.
+ */
 export async function deleteAccount(id: string): Promise<void> {
   // leave all groups
   const groupsWhereMember = await GroupModelConfig.model
