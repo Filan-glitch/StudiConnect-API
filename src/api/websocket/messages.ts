@@ -4,6 +4,7 @@ import authentication from "../../logic/authentication_logic";
 import connectionManagement from "../../core/websocket/messages";
 
 export async function onConnectionEstablished(ws: ws, req: Request) {
+  console.log("ws handler");
   const sessionID: string | undefined = req.cookies["session"]?.toString();
 
   console.log(sessionID);
