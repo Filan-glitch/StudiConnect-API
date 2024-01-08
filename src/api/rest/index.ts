@@ -1,4 +1,3 @@
-import { onConnectionEstablished } from "../websocket/messages";
 import { getGroupImage, setGroupImage, deleteGroupImage } from "./group-images";
 import { health } from "./health";
 import {
@@ -15,5 +14,4 @@ export default {
   getGroupImage,
   setGroupImage,
   deleteGroupImage,
-  onConnectionEstablished,
 };

@@ -5,14 +5,16 @@ import { firebaseSetup } from "./config/firebase";
 import { connectElasticsearch } from "./config/elasticsearch";
 import { appendFileSync } from "fs";
 import moment from "moment";
+import websocketSetup from "./config/websocket";
 
 const main = async () => {
   // initialize firebase admin sdk
   firebaseSetup();
 
-  //await mongodbSetup();
-  //await connectElasticsearch();
+  await mongodbSetup();
+  await connectElasticsearch();
 
+  websocketSetup();
   let port = await expressServerSetup();
 
   console.log(`🚀 Server ready at http://${process.env["DOMAIN"]}:${port}/api`);
@@ -47,20 +49,6 @@ console.warn = function (data) {
   );
   process.stderr.write(`WARN  ${timestamp}  ${data}\n`);
 };
-
-import { WebSocketServer } from 'ws';
-
-const wss = new WebSocketServer({ port: 8081 });
-console.log("start server");
-wss.on('connection', function connection(ws) {
-  ws.on('error', console.error);
-  console.log("connection");
-  ws.on('message', function message(data) {
-    console.log('received: ${data}');
-  });
-
-  ws.send('something');
-});
 
 console.log("Starting server...");
 
