@@ -7,8 +7,6 @@ import { appendFileSync } from "fs";
 import moment from "moment";
 
 const main = async () => {
-  // TODO: check if public folders exists, otherwise create them
-
   // initialize firebase admin sdk
   firebaseSetup();
 
