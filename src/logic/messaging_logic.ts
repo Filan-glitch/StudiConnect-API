@@ -83,13 +83,10 @@ async function sendMessage(
     )
   );
 
-  console.log(message);
-
   // send message to all members of the group
   for (const member of groupEntity.members) {
     const memberID = member.toHexString();
     const connection = connectionManagement.getConnection(memberID, group);
-    console.log(connection);
     if (connection != undefined) {
       connection.send(message);
     }
