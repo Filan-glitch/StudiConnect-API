@@ -6,6 +6,7 @@ import MessageTO, { mapMessageTO } from "./model/to/message_to";
 import NotFoundError from "./model/exceptions/not_found";
 import connectionManagement from "../core/websocket/messages";
 import { GroupModelConfig } from "../dataaccess/schema/group";
+import QueryConfig from "../core/dataaccess/query_config";
 
 export default {
   getMessagesOfGroup,
@@ -31,7 +32,13 @@ async function getMessagesOfGroup(
     throw new NotFoundError("Sie sind kein Mitglied der Gruppe.");
   }
 
-  return (await query(MessageModelConfig, { group }, info, page)).map(
+  const config: QueryConfig = {
+    page,
+    sort: {
+      sendAt: -1,
+    },
+  };
+  return (await query(MessageModelConfig, { group }, info, config)).map(
     mapMessageTO
   );
 }
@@ -81,9 +88,10 @@ async function sendMessage(
   // send message to all members of the group
   for (const member of groupEntity.members) {
     const memberID = member.toHexString();
-    const connection = connectionManagement.getConnection(memberID);
+    const connection = connectionManagement.getConnection(memberID, group);
+    console.log(connection);
     if (connection != undefined) {
-      connection.connection.send(message);
+      connection.send(message);
     }
   }
 

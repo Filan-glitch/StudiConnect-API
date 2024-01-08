@@ -7,7 +7,7 @@ const typeDefs = gql`
     user(id: ID!): User!
     group(id: ID!): Group!
     searchGroups(module: String!, radius: Int!): [Group!]!
-    messages(group: ID!): [Message!]!
+    messages(group: ID!, page: Int!): [Message!]!
   }
 
   type Mutation {

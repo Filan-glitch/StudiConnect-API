@@ -1,4 +1,5 @@
-import { Connection } from "./connection";
+import { Connection } from "./connection_identifier";
+import ws from "ws";
 
 export default {
   addConnection,
@@ -6,16 +7,22 @@ export default {
   getConnection,
 };
 
-let connections: Map<string, Connection> = new Map();
+let connections: Connection[] = [];
 
-function addConnection(userID: string, connection: Connection): void {
-  connections.set(userID, connection);
+function addConnection(userID: string, groupID: string, connection: ws): void {
+  connections.push({ userID, groupID, socket: connection });
 }
 
-function removeConnection(userID: string): void {
-  connections.delete(userID);
+function removeConnection(userID: string, groupID: string): void {
+  connections.filter(
+    (connection) =>
+      connection.userID !== userID && connection.groupID !== groupID
+  );
 }
 
-function getConnection(userID: string): Connection | undefined {
-  return connections.get(userID);
+function getConnection(userID: string, groupID: string): ws | undefined {
+  return connections.find(
+    (connection) =>
+      connection.userID === userID && connection.groupID === groupID
+  )?.socket;
 }

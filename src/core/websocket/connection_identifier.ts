@@ -1,4 +1,7 @@
 import ws from "ws";
+
 export interface Connection {
-  connection: ws;
+  userID: string;
+  groupID: string;
+  socket: ws;
 }

@@ -6,17 +6,22 @@ import connectionManagement from "../../core/websocket/messages";
 export async function onConnectionEstablished(ws: ws, req: Request) {
   const sessionID: string | undefined = req.cookies["session"]?.toString();
 
+  console.log(sessionID);
   if (sessionID == undefined) return;
 
   const userID = await authentication.getUserIdBySession(sessionID);
-
+  console.log(userID);
   if (userID == undefined) return;
 
-  // TODO: specify group
+  let group = req.headers["group"]?.toString();
 
-  connectionManagement.addConnection(userID, { connection: ws });
+  console.log(group);
+  if (group == undefined) return;
+
+  connectionManagement.addConnection(userID, group, ws);
 
   ws.on("close", () => {
-    connectionManagement.removeConnection(userID);
+    if (group == undefined) return;
+    connectionManagement.removeConnection(userID, group);
   });
 }

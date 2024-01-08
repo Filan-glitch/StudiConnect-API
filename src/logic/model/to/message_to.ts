@@ -17,7 +17,7 @@ export function mapMessageTO(message: any): MessageTO {
     if (typeof message.sendAt === "string") {
       sendAt = message.sendAt;
     } else {
-      sendAt = moment(message.sendAt).format("yyyy-MM-DD");
+      sendAt = moment(message.sendAt).format("yyyy-MM-DD HH:mm:ss");
     }
   }
 
