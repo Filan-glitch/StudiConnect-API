@@ -1,11 +1,15 @@
 import { FieldNode, GraphQLResolveInfo, SelectionNode } from "graphql";
 import { PopulateOptions } from "mongoose";
 import EntityConfig from "./entity_config";
+import QueryConfig from "./query_config";
+
+const resultsPerPage = 20;
 
 export function query(
   entity: EntityConfig,
   params: any,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
+  config?: QueryConfig
 ): Promise<any> {
   if (info.fieldNodes.length !== 1) {
     throw new Error("Invalid number of requests");
@@ -20,6 +24,14 @@ export function query(
     .find(params)
     .populate(populate)
     .select(select.join(" "));
+
+  if (config?.page !== undefined) {
+    query.skip(config.page * resultsPerPage).limit(resultsPerPage);
+  }
+
+  if (config?.sort !== undefined) {
+    query.sort(config.sort);
+  }
 
   return query;
 }

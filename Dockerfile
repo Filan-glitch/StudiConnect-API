@@ -26,5 +26,5 @@ COPY --from=builder /server/build .
 COPY --chown=node:node firebase-private.pem .
 COPY --chown=node:node .env.prod .env
 
-EXPOSE 8080
+EXPOSE 8080 8081
 CMD [ "node", "index.js" ]

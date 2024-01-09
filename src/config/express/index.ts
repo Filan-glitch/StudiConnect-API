@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 
 async function expressServerSetup(): Promise<number> {
   const app = express();
+
   app.use(
     bodyParser.raw({
       inflate: true,
@@ -27,7 +28,7 @@ async function expressServerSetup(): Promise<number> {
   app.post("/api/group/:id/image", routes.setGroupImage);
   app.delete("/api/group/:id/image", routes.deleteGroupImage);
   app.use("/api/graphql", await addApolloMiddleware());
-
+  
   let port = parseInt(process.env.PORT ?? "8080");
 
   return new Promise<number>((resolve, reject) => {

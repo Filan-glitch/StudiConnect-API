@@ -9,6 +9,7 @@ import {
   deleteGroupIndex,
 } from "../../dataaccess/elasticsearch/groups";
 import Location from "../model/location";
+import { MessageModelConfig } from "../../dataaccess/schema/message";
 
 export async function createGroup(
   title: string,
@@ -105,6 +106,9 @@ export async function deleteGroup(id: string, userID: string): Promise<void> {
   if (!isMember) {
     throw new NoPermissionError("Sie sind kein Mitglied dieser Gruppe.");
   }
+
+  // delete all group messages
+  await MessageModelConfig.model.deleteMany({ group: id });
 
   await Group.findByIdAndDelete(id);
 

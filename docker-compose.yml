@@ -54,6 +54,7 @@ services:
     user: "node:node"
     volumes:
       - ~/studiconnect-appdata/public:/public:777
+      - ~/studiconnect-appdata/log/backend:/logs:777
     networks:
       main:
         ipv4_address: 192.168.10.4

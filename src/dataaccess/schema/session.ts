@@ -12,7 +12,7 @@ const Session = mongoose.model(
     iat: {
       type: Date,
       default: Date.now,
-      expires: 3600, // seconds
+      expires: 31536000, // seconds
     },
   })
 );
