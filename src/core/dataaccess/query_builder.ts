@@ -3,7 +3,7 @@ import { PopulateOptions } from "mongoose";
 import EntityConfig from "./entity_config";
 import QueryConfig from "./query_config";
 
-const resultsPerPage = 10;
+const resultsPerPage = 20;
 
 export function query(
   entity: EntityConfig,
