@@ -24,6 +24,17 @@ export async function createGroup(
     throw new NotFoundError("Der Nutzer konnte nicht gefunden werden.");
   }
 
+  if (
+    user.university == null ||
+    user.major == null ||
+    user.university.trim() === "" ||
+    user.major.trim() === ""
+  ) {
+    throw new Error(
+      "Bitte vervollständigen Sie Ihr Profil, bevor Sie eine Gruppe erstellen."
+    );
+  }
+
   let group = new GroupModel();
   group._id = new Types.ObjectId();
   group.title = title;
