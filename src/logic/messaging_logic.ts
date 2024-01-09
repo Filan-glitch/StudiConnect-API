@@ -87,7 +87,7 @@ async function sendMessage(
   for (const member of groupEntity.members) {
     const memberID = member.toHexString();
     const connection = connectionManagement.getConnection(memberID, group);
-    if (connection != undefined) {
+    if (connection != undefined && connection.readyState === 1) {
       connection.send(message);
     }
   }

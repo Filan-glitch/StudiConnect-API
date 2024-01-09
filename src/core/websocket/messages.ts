@@ -14,9 +14,9 @@ function addConnection(userID: string, groupID: string, connection: ws): void {
 }
 
 function removeConnection(userID: string, groupID: string): void {
-  connections.filter(
+  connections = connections.filter(
     (connection) =>
-      connection.userID !== userID && connection.groupID !== groupID
+      connection.userID !== userID || connection.groupID !== groupID
   );
 }
 
