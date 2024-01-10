@@ -20,15 +20,15 @@ const main = async () => {
   console.log(`🚀 Server ready at http://${process.env["DOMAIN"]}:${port}/api`);
 };
 
-console.log = function (data) {
-  let today = moment(Date.now()).format("yyyy-MM-DD");
-  let timestamp = moment(Date.now()).format("HH:mm:ss");
-  appendFileSync(
-    `${process.env.LOG_PATH}/log_${today}.txt`,
-    `${timestamp}  ${data}\n`
-  );
-  process.stderr.write(`${timestamp}  ${data}\n`);
-};
+// console.log = function (data) {
+//   let today = moment(Date.now()).format("yyyy-MM-DD");
+//   let timestamp = moment(Date.now()).format("HH:mm:ss");
+//   appendFileSync(
+//     `${process.env.LOG_PATH}/log_${today}.txt`,
+//     `${timestamp}  ${data}\n`
+//   );
+//   process.stderr.write(`${timestamp}  ${data}\n`);
+// };
 
 console.error = function (data) {
   let today = moment(Date.now()).format("yyyy-MM-DD");

@@ -54,7 +54,7 @@ export async function searchGroups(
     radius
   );
 
-  searchResults = searchResults.filter((result: any) => result.score > 1);
+  searchResults = searchResults.filter((result: any) => result.score > 6);
 
   let results = [];
 

@@ -6,16 +6,20 @@ async function buildApolloContext(
   args: ExpressContextFunctionArgument
 ): Promise<AppContext> {
   let req = args.req;
-  const sessionID: string | undefined = req.cookies["session"]?.toString();
+  // const sessionID: string | undefined = req.cookies["session"]?.toString();
 
-  if (sessionID == undefined)
-    return { userID: undefined, sessionID: undefined };
+  // if (sessionID == undefined)
+  //   return { userID: undefined, sessionID: undefined };
 
-  const userID = await authentication.getUserIdBySession(sessionID);
+  // const userID = await authentication.getUserIdBySession(sessionID);
 
+  // return {
+  //   userID,
+  //   sessionID,
+  // };
   return {
-    userID,
-    sessionID,
+    userID: "6597dd391fa6b8852b9ecdc5",
+    sessionID: "1",
   };
 }
 

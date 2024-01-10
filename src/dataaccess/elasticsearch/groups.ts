@@ -30,18 +30,21 @@ export async function searchGroupsFromElasticsearch(
               query_string: {
                 query: `${university}~2*`,
                 fields: ["university"],
+                boost: 0.3,
               },
             },
             {
               query_string: {
                 query: `${major}~2*`,
                 fields: ["major"],
+                boost: 0.1,
               },
             },
             {
               query_string: {
                 query: `${module}~2*`,
                 fields: ["module"],
+                boost: 5,
               },
             },
           ],
@@ -58,6 +61,8 @@ export async function searchGroupsFromElasticsearch(
       },
     },
   });
+
+  console.log(response.hits.hits);
 
   let results = response.hits.hits.map((hit: any) => {
     return {
