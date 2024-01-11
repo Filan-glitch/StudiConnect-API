@@ -1,5 +1,8 @@
 import GroupTO, { mapGroupTO } from "./group_to";
 
+/**
+ * Transfer object of a user.
+ */
 export default interface UserTO {
   id: string | undefined;
   email: string | undefined;
@@ -15,6 +18,11 @@ export default interface UserTO {
   groups: GroupTO[] | undefined;
 }
 
+/**
+ * Maps a user entity to a transfer object.
+ * @param user The user entity to map.
+ * @returns The transfer object.
+ */
 export function mapUserTO(user: any): UserTO {
   return {
     id: user.id.toString(),

@@ -4,6 +4,7 @@ import UserModel from "../dataaccess/schema/user";
 import SessionModel from "../dataaccess/schema/session";
 import SessionTO from "./model/to/session_to";
 import { deleteAccount } from "./user/user_edit_logic";
+import NoPermissionError from "./model/exceptions/no_permission";
 
 export default {
   authenticate,
@@ -12,14 +13,20 @@ export default {
   getUserIdBySession,
 };
 
+/**
+ * Authenticates a user with a firebase token.
+ * If the user does not exist, it will be created.
+ * @param token id token from firebase
+ * @returns created session
+ * @throws NoPermissionError if token is invalid
+ */
 async function authenticate(token: string): Promise<SessionTO> {
   let tokenDetails = await getFirebaseAuth().verifyIdToken(token);
 
-  // TODO: enable token expiration
-  // const TOKEN_EXPIRE = 5 * 60; // 5 minutes
-  // if (new Date().getTime() / 1000 - tokenDetails.iat > TOKEN_EXPIRE) {
-  //   throw new AuthenticationError("Token ist abgelaufen.");
-  // }
+  const TOKEN_EXPIRE = 5 * 60; // 5 minutes
+  if (new Date().getTime() / 1000 - tokenDetails.iat > TOKEN_EXPIRE) {
+    throw new NoPermissionError("Token ist abgelaufen.");
+  }
 
   let user = await UserModel.findOne({
     email: tokenDetails.email,
@@ -55,6 +62,10 @@ async function authenticate(token: string): Promise<SessionTO> {
   };
 }
 
+/**
+ * Authenticates a guest user.
+ * @returns created session
+ */
 async function authenticateGuest(): Promise<SessionTO> {
   let user = new UserModel();
   user._id = new Types.ObjectId();
@@ -84,6 +95,10 @@ async function authenticateGuest(): Promise<SessionTO> {
   };
 }
 
+/**
+ * Logs out a user.
+ * @param sessionID The session id of the user.
+ */
 async function logout(sessionID: string): Promise<void> {
   const session = await SessionModel.findById(sessionID).exec();
   if (session == null) {
@@ -102,6 +117,11 @@ async function logout(sessionID: string): Promise<void> {
   await SessionModel.findByIdAndDelete(sessionID).exec();
 }
 
+/**
+ * Gets the user id of a session.
+ * @param sessionID The session id of the user.
+ * @returns The user id of the session.
+ */
 async function getUserIdBySession(
   sessionID: string
 ): Promise<string | undefined> {

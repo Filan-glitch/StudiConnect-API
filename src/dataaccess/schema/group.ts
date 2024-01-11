@@ -4,6 +4,9 @@ import { UserModelConfig } from "./user";
 
 const schemaName = "groups";
 
+/**
+ * Schema definition for the group schema.
+ */
 const Group = mongoose.model(
   schemaName,
   new Schema({
@@ -20,6 +23,9 @@ const Group = mongoose.model(
   })
 );
 
+/**
+ * Configuration for the group schema.
+ */
 export const GroupModelConfig: EntityConfig = {
   fieldsToPopulate: [
     {

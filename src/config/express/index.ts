@@ -6,9 +6,14 @@ import authenticationMiddleware from "../../core/rest/authentication_middleware"
 
 const cookieParser = require("cookie-parser");
 
+/**
+ * Sets up the express server.
+ * @returns The port the server is listening on.
+ */
 async function expressServerSetup(): Promise<number> {
   const app = express();
 
+  // handle image uploads
   app.use(
     bodyParser.raw({
       inflate: true,
@@ -16,19 +21,20 @@ async function expressServerSetup(): Promise<number> {
       limit: "10mb",
     })
   );
-  app.use(express.json());
-  app.use(cookieParser());
-  app.use(authenticationMiddleware());
 
-  app.get("/health", routes.health);
-  app.get("/api/user/:uid/image", routes.getProfileImage);
-  app.post("/api/user/image", routes.setProfileImage);
-  app.delete("/api/user/image", routes.deleteProfileImage);
-  app.get("/api/group/:id/image", routes.getGroupImage);
-  app.post("/api/group/:id/image", routes.setGroupImage);
-  app.delete("/api/group/:id/image", routes.deleteGroupImage);
-  app.use("/api/graphql", await addApolloMiddleware());
-  
+  app.use(express.json()); // handle json requests
+  app.use(cookieParser()); // handle cookies
+  app.use(authenticationMiddleware()); // check if user is authenticated
+
+  app.get("/health", routes.health); // health endpoint
+  app.get("/api/user/:uid/image", routes.getProfileImage); // get profile image
+  app.post("/api/user/image", routes.setProfileImage); // set profile image
+  app.delete("/api/user/image", routes.deleteProfileImage); // delete profile image
+  app.get("/api/group/:id/image", routes.getGroupImage); // get group image
+  app.post("/api/group/:id/image", routes.setGroupImage); // set group image
+  app.delete("/api/group/:id/image", routes.deleteGroupImage); // delete group image
+  app.use("/api/graphql", await addApolloMiddleware()); // graphql endpoint
+
   let port = parseInt(process.env.PORT ?? "8080");
 
   return new Promise<number>((resolve, reject) => {

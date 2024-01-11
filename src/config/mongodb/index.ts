@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+/**
+ * Open a connection to the MongoDB database.
+ */
 async function mongodbSetup() {
   await mongoose
     .connect(

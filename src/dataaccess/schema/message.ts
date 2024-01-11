@@ -5,6 +5,9 @@ import { GroupModelConfig } from "./group";
 
 const schemaName = "messages";
 
+/**
+ * Schema definition for the message schema.
+ */
 const Message = mongoose.model(
   schemaName,
   new Schema({
@@ -16,6 +19,9 @@ const Message = mongoose.model(
   })
 );
 
+/**
+ * Configuration for the message schema.
+ */
 export const MessageModelConfig: EntityConfig = {
   fieldsToPopulate: [
     {

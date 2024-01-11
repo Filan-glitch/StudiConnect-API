@@ -7,15 +7,17 @@ import { appendFileSync } from "fs";
 import moment from "moment";
 import websocketSetup from "./config/websocket";
 
+/**
+ * Main function.
+ */
 const main = async () => {
   // initialize firebase admin sdk
   firebaseSetup();
-
-  await mongodbSetup();
-  await connectElasticsearch();
+  await mongodbSetup(); // connect to mongodb
+  await connectElasticsearch(); // connect to elasticsearch
 
   websocketSetup();
-  let port = await expressServerSetup();
+  let port = await expressServerSetup(); // start express server
 
   console.log(`🚀 Server ready at http://${process.env["DOMAIN"]}:${port}/api`);
 };
@@ -52,6 +54,7 @@ console.warn = function (data) {
 
 console.log("Starting server...");
 
+// handle uncaught exceptions
 process.on("uncaughtException", function (error) {
   console.error(error.stack);
 });
