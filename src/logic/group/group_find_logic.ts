@@ -75,7 +75,7 @@ export async function searchGroups(
   );
 
   // filter out groups with low score
-  searchResults = searchResults.filter((result: any) => result.score > 1);
+  searchResults = searchResults.filter((result: any) => result.score > 6);
 
   let results = [];
 

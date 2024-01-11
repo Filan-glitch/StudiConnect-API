@@ -23,6 +23,8 @@ import { login, loginAsGuest, logout } from "../../api/graphql/mutations/auth";
 import { RequestHandler } from "express";
 import LifecyclePlugin from "../../core/graphql/plugins/lifecycle";
 import buildApolloContext from "../../core/graphql/context_builder";
+import { messages } from "../../api/graphql/queries/messages";
+import { sendMessage } from "../../api/graphql/mutations/messages";
 
 /**
  * Mapping of all GraphQL resolvers.
@@ -33,6 +35,7 @@ export const resolvers = {
     user,
     group,
     searchGroups,
+    messages,
   },
   User: {
     groups: groupsOfUser,
@@ -51,6 +54,7 @@ export const resolvers = {
     addMember,
     removeMember,
     removeJoinRequest,
+    sendMessage,
   },
 };
 

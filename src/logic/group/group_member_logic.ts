@@ -4,6 +4,7 @@ import NoPermissionError from "../model/exceptions/no_permission";
 import DuplicateError from "../model/exceptions/duplicate";
 import Group from "../../dataaccess/schema/group";
 import { deleteGroup } from "./group_edit_logic";
+import { MessageModelConfig } from "../../dataaccess/schema/message";
 
 /**
  * Creates a join request for a group.
@@ -116,6 +117,9 @@ export async function removeMember(
   if (!isMember) {
     throw new NoPermissionError("Sie sind kein Mitglied dieser Gruppe.");
   }
+
+  // delete all messages from user
+  await MessageModelConfig.model.deleteMany({ group: id, sender: user });
 
   // delete group, if no members are left
   if (group.members.length === 1) {

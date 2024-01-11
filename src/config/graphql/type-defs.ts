@@ -10,6 +10,7 @@ const typeDefs = gql`
     user(id: ID!): User!
     group(id: ID!): Group!
     searchGroups(module: String!, radius: Int!): [Group!]!
+    messages(group: ID!, page: Int!): [Message!]!
   }
 
   type Mutation {
@@ -49,6 +50,8 @@ const typeDefs = gql`
     addMember(id: ID!, user: ID!): Void
     removeMember(id: ID!, user: ID!): Void
     removeJoinRequest(id: ID!, user: ID!): Void
+
+    sendMessage(content: String!, group: ID!): Message!
   }
 
   type Session {
@@ -83,6 +86,14 @@ const typeDefs = gql`
     lat: Float!
     lon: Float!
     imageExists: Boolean!
+  }
+
+  type Message {
+    id: ID!
+    content: String!
+    sender: User!
+    group: Group!
+    sendAt: String!
   }
 `;
 

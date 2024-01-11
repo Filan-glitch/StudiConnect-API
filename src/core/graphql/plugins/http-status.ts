@@ -75,6 +75,7 @@ const HttpStatusPlugin: ApolloServerPlugin = {
             break;
 
           default:
+            console.error(response?.body?.singleResult.errors);
             statusCode = Number.isNaN(parseInt(errCode))
               ? 500
               : parseInt(errCode);

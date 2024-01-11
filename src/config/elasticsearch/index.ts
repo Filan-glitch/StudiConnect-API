@@ -6,9 +6,21 @@ let client: Client;
  * Connects to the Elasticsearch database.
  */
 export async function connectElasticsearch(): Promise<void> {
-  client = new Client({
-    node: process.env.ELASTICSEARCH_URL || "http://localhost:9200",
-  });
+  if (process.env.ELASTICSEARCH_CLOUD_ID === undefined) {
+    client = new Client({
+      node: process.env.ELASTICSEARCH_URL || "http://localhost:9200",
+    });
+  } else {
+    client = new Client({
+      cloud: {
+        id: process.env.ELASTICSEARCH_CLOUD_ID,
+      },
+      auth: {
+        username: process.env.ELASTICSEARCH_USERNAME ?? "elastic",
+        password: process.env.ELASTICSEARCH_PASSWORD ?? "",
+      },
+    });
+  }
 
   // create index for groups, if it does not exist
   if (!(await client.indices.exists({ index: "groups" }))) {

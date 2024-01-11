@@ -9,6 +9,7 @@ import {
   deleteGroupIndex,
 } from "../../dataaccess/elasticsearch/groups";
 import Location from "../model/location";
+import { MessageModelConfig } from "../../dataaccess/schema/message";
 
 /**
  * Creates a new group in mongodb and elasticsearch with the given parameters.
@@ -31,6 +32,17 @@ export async function createGroup(
 
   if (user == null) {
     throw new NotFoundError("Der Nutzer konnte nicht gefunden werden.");
+  }
+
+  if (
+    user.university == null ||
+    user.major == null ||
+    user.university.trim() === "" ||
+    user.major.trim() === ""
+  ) {
+    throw new Error(
+      "Bitte vervollständigen Sie Ihr Profil, bevor Sie eine Gruppe erstellen."
+    );
   }
 
   let group = new GroupModel();
@@ -133,6 +145,9 @@ export async function deleteGroup(id: string, userID: string): Promise<void> {
   if (!isMember) {
     throw new NoPermissionError("Sie sind kein Mitglied dieser Gruppe.");
   }
+
+  // delete all group messages
+  await MessageModelConfig.model.deleteMany({ group: id });
 
   // delete group in mongodb
   await Group.findByIdAndDelete(id);
