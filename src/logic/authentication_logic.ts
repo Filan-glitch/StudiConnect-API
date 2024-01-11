@@ -4,6 +4,7 @@ import UserModel from "../dataaccess/schema/user";
 import SessionModel from "../dataaccess/schema/session";
 import SessionTO from "./model/to/session_to";
 import { deleteAccount } from "./user/user_edit_logic";
+import NoPermissionError from "./model/exceptions/no_permission";
 
 export default {
   authenticate,
@@ -17,16 +18,15 @@ export default {
  * If the user does not exist, it will be created.
  * @param token id token from firebase
  * @returns created session
- * @throws AuthenticationError if token is invalid
+ * @throws NoPermissionError if token is invalid
  */
 async function authenticate(token: string): Promise<SessionTO> {
   let tokenDetails = await getFirebaseAuth().verifyIdToken(token);
 
-  // TODO: enable token expiration
-  // const TOKEN_EXPIRE = 5 * 60; // 5 minutes
-  // if (new Date().getTime() / 1000 - tokenDetails.iat > TOKEN_EXPIRE) {
-  //   throw new AuthenticationError("Token ist abgelaufen.");
-  // }
+  const TOKEN_EXPIRE = 5 * 60; // 5 minutes
+  if (new Date().getTime() / 1000 - tokenDetails.iat > TOKEN_EXPIRE) {
+    throw new NoPermissionError("Token ist abgelaufen.");
+  }
 
   let user = await UserModel.findOne({
     email: tokenDetails.email,
