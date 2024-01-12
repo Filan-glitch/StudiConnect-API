@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the appReducer function from the models.redux.reducer library, for the Dart programming language.">
+  <title>appReducer function - models.redux.reducer library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">studiconnect</a></li>
+    <li><a href="../models.redux.reducer/models.redux.reducer-library.html">models.redux.reducer</a></li>
+    <li class="self-crumb">appReducer function</li>
+  </ol>
+  <div class="self-name">appReducer</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="models.redux.reducer&#47;models.redux.reducer-library-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-function">appReducer</span> function 
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="../models.redux.app_state/AppState-class.html">AppState</a></span>
+<span class="name ">appReducer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="appReducer-param-state"><span class="type-annotation"><a href="../models.redux.app_state/AppState-class.html">AppState</a></span> <span class="parameter-name">state</span>, </span></li>
+<li><span class="parameter" id="appReducer-param-action"><span class="type-annotation">dynamic</span> <span class="parameter-name">action</span></span></li>
+</ol>)
+
+        
+
+    </section>
+    
+<section class="desc markdown">
+  <p>A function that reduces the application state based on the provided action.</p>
+<p>This function takes the current state of the application and an action as input,
+and returns the new state of the application after applying the action.</p>
+<p>The <code>state</code> parameter is required and represents the current state of the application.</p>
+<p>The <code>action</code> parameter is required and represents the action to be applied.</p>
+<p>If the action is not an instance of the <a href="../models.redux.actions/Action-class.html">Action</a> class, the function returns the current state without any changes.</p>
+<p>Depending on the type of the action, the function updates the corresponding property of the state.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">AppState appReducer(AppState state, dynamic action) {
+  if (action is! Action) return state;
+
+  switch (action.type) {
+    case ActionTypes.clear:
+      state = AppState();
+    case ActionTypes.startTask:
+      state.runningTasks++;
+    case ActionTypes.stopTask:
+      state.runningTasks--;
+    case ActionTypes.setUser:
+      state.user = action.payload;
+    case ActionTypes.updateUser:
+      state.user?.update(
+        username: action.payload[&#39;username&#39;],
+        university: action.payload[&#39;university&#39;],
+        major: action.payload[&#39;major&#39;],
+        lat: action.payload[&#39;lat&#39;],
+        lon: action.payload[&#39;lon&#39;],
+        bio: action.payload[&#39;bio&#39;],
+        mobile: action.payload[&#39;mobile&#39;],
+        discord: action.payload[&#39;discord&#39;],
+      );
+    case ActionTypes.updateGroup:
+      state.user?.groups
+          ?.firstWhere((element) =&gt; element.id == action.payload[&#39;id&#39;])
+          .update(
+            title: action.payload[&#39;title&#39;],
+            description: action.payload[&#39;description&#39;],
+            module: action.payload[&#39;module&#39;],
+            lat: action.payload[&#39;lat&#39;],
+            lon: action.payload[&#39;lon&#39;],
+          );
+    case ActionTypes.updateSessionID:
+      state.sessionID = action.payload;
+    case ActionTypes.updateSearchResults:
+      state.searchResults = action.payload;
+    case ActionTypes.updateAuthProviderType:
+      state.authProviderType = action.payload;
+    case ActionTypes.setProfileImageAvailable:
+      state.profileImageAvailable = action.payload;
+    case ActionTypes.setConnectionState:
+      state.connected = action.payload;
+  }
+
+  return state;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">studiconnect</a></li>
+    <li><a href="../models.redux.reducer/models.redux.reducer-library.html">models.redux.reducer</a></li>
+    <li class="self-crumb">appReducer function</li>
+</ol>
+
+
+    <h5>models.redux.reducer library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    studiconnect
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the runRestApi function from the controllers.api library, for the Dart programming language.">
+  <title>runRestApi function - controllers.api library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">studiconnect</a></li>
+    <li><a href="../controllers.api/controllers.api-library.html">controllers.api</a></li>
+    <li class="self-crumb">runRestApi&lt;<wbr><span class="type-parameter">T</span>&gt; function</li>
+  </ol>
+  <div class="self-name">runRestApi</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="controllers.api&#47;controllers.api-library-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-function">runRestApi&lt;<wbr><span class="type-parameter">T</span>&gt;</span> function 
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">T?</span>&gt;</span></span>
+<span class="name ">runRestApi</span>&lt;<wbr><span class="type-parameter">T</span>&gt;(<wbr><ol class="parameter-list"><li><span class="parameter" id="runRestApi-param-apiCall">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a></span> <span class="parameter-name">apiCall</span>(<ol class="parameter-list"></ol>
+), </span></li>
+<li><span class="parameter" id="runRestApi-param-parser"><span class="type-annotation">T</span> <span class="parameter-name">parser</span>(<ol class="parameter-list"><li><span class="parameter" id="param-parser"><span class="type-annotation">dynamic</span> <span class="parameter-name">parser</span></span></li>
+</ol>
+)?, </span></li>
+<li><span class="parameter" id="runRestApi-param-showLoading"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">showLoading</span> = <span class="default-value">true</span>, </span></li>
+<li><span class="parameter" id="runRestApi-param-shouldRethrow"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">shouldRethrow</span> = <span class="default-value">false</span>}</span></li>
+</ol>)
+
+        
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Executes a REST API service and handles loading, API call, and parsing.</p>
+<p>This function takes an API call and a parser function as input, and optionally a flag for showing a loading screen.
+It dispatches actions to start and stop a loading task, executes the API call, and parses the response.</p>
+<p>The <code>apiCall</code> parameter is required and should be a function that makes an API call and returns a Future that completes with a dynamic result.</p>
+<p>The <code>parser</code> parameter is required and should be a function that takes a dynamic result and returns a parsed result.</p>
+<p>The <code>showLoading</code> parameter is optional and defaults to true. If set to true, a loading task will be started before the API call and stopped after the parsing.</p>
+<p>Returns a Future that completes with the parsed result if the API call and parsing were successful. If an error occurred, the Future completes with null.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Future&lt;T?&gt; runRestApi&lt;T&gt;({
+  required Future&lt;dynamic&gt; Function() apiCall,
+  T Function(dynamic parser)? parser,
+  bool showLoading = true,
+  bool shouldRethrow = false,
+}) async {
+  &#47;&#47; Loading Screen
+  if (showLoading) {
+    log(&#39;Starting Loading Screen&#39;);
+    store.dispatch(redux.Action(redux.ActionTypes.startTask));
+  }
+
+  &#47;&#47; API Call
+  final Map&lt;String, dynamic&gt;? response;
+  try {
+    log(&#39;Starting API Call&#39;);
+    response = await apiCall();
+    log(&#39;API Call Finished&#39;);
+  } on ApiException catch (e) {
+    logWarning(&#39;API Exception ${e.code}: ${e.message}&#39;);
+
+    if (showLoading) {
+      log(&#39;Stopping Loading Screen&#39;);
+      store.dispatch(redux.Action(redux.ActionTypes.stopTask));
+    }
+
+    if(shouldRethrow) {
+      rethrow;
+    } else {
+      showToast(e.message);
+    }
+
+    return null;
+  }
+
+  &#47;&#47; Parsing
+  T? parsed;
+  if (response != null &amp;&amp; parser != null) {
+    try {
+      log(&#39;Starting Parsing&#39;);
+      parsed = parser(response);
+      log(&#39;Parsing Finished&#39;);
+    } catch (e) {
+      logWarning(e.toString());
+
+      if (showLoading) {
+        log(&#39;Stopping Loading Screen&#39;);
+        store.dispatch(redux.Action(redux.ActionTypes.stopTask));
+      }
+
+      if(shouldRethrow) {
+        rethrow;
+      } else {
+        showToast(e.toString());
+      }
+
+      return null;
+    }
+  }
+
+  if (showLoading) {
+    log(&#39;Stopping Loading Screen&#39;);
+    store.dispatch(redux.Action(redux.ActionTypes.stopTask));
+  }
+
+  return parsed;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">studiconnect</a></li>
+    <li><a href="../controllers.api/controllers.api-library.html">controllers.api</a></li>
+    <li class="self-crumb">runRestApi&lt;<wbr><span class="type-parameter">T</span>&gt; function</li>
+</ol>
+
+
+    <h5>controllers.api library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    studiconnect
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

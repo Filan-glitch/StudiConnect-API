@@ -49,29 +49,22 @@
 <body id="privacy">
   <h1 id="datenschutzerkl-rung">Datenschutz<wbr>erklärung</h1>
   <p>Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und behandeln Ihre personenbezogenen Daten vertraulich
-    und entsprechend der gesetzlichen Datenschutz-Grundverordnung (DSGVO) und des Telemediengesetzes (TMG).<br>Wir
-    darauf hin, dass die zentrale Datenhaltung durch die Hochschule Ruhr West betrieben wird. Es ist uns nicht möglich
-    Daten aus dieser Quelle zu bearbeiten oder löschen. Diese App wertet lediglich die Daten aus der für Studenten
-    zugänglichen Website <a href="https://campusnet.hs-ruhrwest.de">CampusNet</a> aus und speichert sie lokal auf dem
-    Gerät des Nutzers. Die Datenschutzerklärung der Hochschule Ruhr West und der Anwendung CampusNet ist hier
-    einzusehen: <a target="_blank" href="https://www.datenlotsen.de/de/mobile-datenschutz">Datenschutzerklärung</a></p>
+    und entsprechend der gesetzlichen Datenschutz-Grundverordnung (DSGVO) und des Telemediengesetzes (TMG).</p>
   <h2 id="verantwortlicher-f-r-datenschutz">Verantwortlicher für Datenschutz</h2>
   <p><strong>Finn Dilan</strong><br>E-Mail: <a href="mailto:finn.dilan@gmail.com">finn.dilan@gmail.com</a></p>
   <h2 id="arten-der-erhobenen-daten">Arten der erhobenen Daten</h2>
-  <p>Folgende Daten des Nutzers werden ausschließlich lokal auf dem Gerät gespeichert und verlassen nicht das benutzende
-    Gerät. Die gespeicherten Daten sind:</p>
+  <p>Es werden folgende Arten von Daten erhoben:</p>
   <ul>
-    <li>Sitzungsinformationen vom CampusNet (SessionID, Arguments)</li>
-    <li>Veranstaltungen (Datum, Zeit, Name, Raum)</li>
-    <li>Alle Prüfungsergebnisse (Kürzel, Name, Note, Status) und Gesamtdurchschnitt</li>
-    <li>Aktives Design (Lightmode/Darkmode)</li>
-    <li>Auswahl des Campus (Mülheim/Bottrop)</li>
-    <li>Zustimmung zu Firebase Crashlytics</li>
-    <li>Zeitpunkt der letzten Aktualisierung und Zustimmung zur Nachfrage der Neuanmeldung</li>
-    <li>Vollen Namen und Matrikelnummer des Nutzers</li>
-    <li>Auswahl der Startansicht des Stundenplans</li>
-    <li>Auswahl, ob Push Benachrichtigungen empfangen werden sollen</li>
-    <li>InAppWebView Cache (Cookies)</li>
+    <li>Voller Name des Nutzers</li>
+    <li>Studiengang des Nutzers</li>
+    <li>Universität des Nutzers</li>
+    <li>Biografie des Nutzers</li>
+    <li>Telefonnummer des Nutzers</li>
+    <li>E-Mail-Adresse des Nutzers</li>
+    <li>Discord Nutzername des Nutzers</li>
+    <li>Standort des Gerätes</li>
+    <li>...</li>
+
   </ul>
   <p>Vollständige Details zu jeder Art von verarbeiteten personenbezogenen Daten werden in den dafür vorgesehenen
     Abschnitten dieser Datenschutzerklärung oder punktuell durch Erklärungstexte bereitgestellt, die vor der
@@ -86,16 +79,13 @@
     anderer Tracking-Tools - durch diese Anwendung oder Anbieter von Drittdiensten, die durch diese Anwendung eingesetzt
     werden, dient dem Zweck, den vom Nutzer gewünschten Dienst zu erbringen, und allen anderen Zwecken, die im
     vorliegenden Dokument und, falls vorhanden, in der Cookie-Richtlinie beschrieben sind.<br>Nutzer, die sich darüber
-    im Unklaren sind, welche personenbezogenen Daten obligatorisch sind, können sich an den Anbieter wenden. Die
-    Speicherung der sämtlicher Nutzungsdaten erfolgt lokal und unverschlüsselt in Konfigurationsdateien sowie lokalen
-    SQLite Datenbanken.</p>
+    im Unklaren sind, welche personenbezogenen Daten obligatorisch sind, können sich an den Anbieter wenden.</p>
   <p>Die Nutzer sind für alle personenbezogenen Daten Dritter verantwortlich, die durch diese Anwendung beschafft,
     veröffentlicht oder weitergegeben werden, und bestätigen, dass sie die Zustimmung zur Übermittlung personenbezogener
     Daten etwaiger Dritter an diese Anwendung eingeholt haben.</p>
-  <h2 id="campusnet">CampusNet</h2>
-  <p>Das Abrufen der Daten geschieht direkt aus dem Programm CampusNet.
-    Dabei werden folgende Hostnamen kontaktiert: &quot;campusnet.hs-ruhrwest.de&quot; und
-    &quot;dsf.hs-ruhrwest.de&quot;. </p>
+  <h2 id="server">Server</h2>
+  <p>Das Abrufen der Daten geschieht direkt aus einem privaten Server.
+    Dabei werden folgende Hostnamen kontaktiert: &quot;studiconnect.janbellenberg.de&quot;</p>
   <p>Bei der Anfrage an diese Server werden folgende Daten übermittelt und ggf. gespeichert:</p>
   <ul>
     <li>Zeitpunkt der Anfrage</li>
@@ -110,8 +100,14 @@
     House, Barrow Street, Dublin 4, Ireland.</p>
   <p>Im Falle eines Absturzes werden anonyme Informationen an die Server von Google in die USA übertragen (Zustand der
     App zum Zeitpunkt des Absturzes, Installation UUID, Crash-Trace, Hersteller und Betriebssystem des Handys, letzte
-    Log-Meldungen). Diese Informationen enthalten keine personenbezogenen Daten.
-    Die Übermittlung der Daten erfolgt nur, wenn der Benutzer aktiv zugestimmt hat.</p>
+    Log-Meldungen). Diese Informationen enthalten keine personenbezogenen Daten.</p>
+  <h2 id="firebase-authentication">Firebase Authentication</h2>
+  <p>Um die Sicherheit und Zuverlässigkeit des Authentifizierungsverfahren unserer App zu gewährleisten nutzen wir den
+    bereitgestellten Dienst „Firebase Authentication“ von Google Ireland Ltd., Google Building Gordon
+    House, Barrow Street, Dublin 4, Ireland.</p>
+  <p>Durch die Verwendung von Firebase Authentication können wir sicherstellen, dass nur autorisierte Benutzer auf die
+    App zugreifen können und ihre persönlichen Daten geschützt sind. Dies trägt dazu bei, die Datenschutzrichtlinien
+    unserer App einzuhalten und das Vertrauen der Benutzer in den Umgang mit ihren Daten zu stärken.</p>
   <h2 id="art-und-ort-der-datenverarbeitung">Art und Ort der Datenverarbeitung</h2>
   <p><strong>Verarbeitungsmethoden</strong><br>Der Anbieter verarbeitet die Nutzerdaten auf ordnungsgemäße Weise und
     ergreift angemessene Sicherheitsmaßnahmen, um den unbefugten Zugriff und die unbefugte Weiterleitung, Veränderung
@@ -189,19 +185,11 @@
       Fehlersuche die Nutzung und das Verhalten ihrer einzelnen Bestandteile überwachen.
       Welche personenbezogenen Daten verarbeitet werden, hängt von den Eigenschaften und der Art der Ausführung der
       Dienste ab, deren Funktion das Filtern der über diese Anwendung stattfindenden Aktivitäten ist.</p>
-    <p><strong>Crashlytics mit User Opt-in (Google Ireland Limited)</strong></p>
-    <p>Crashlytics mit User Opt-in ist ein von Google Ireland Limited bereitgestellter Dienst für die Überwachung von
-      Applikationen. Diese Anwendung ermöglicht es Nutzern, sich für die Erhebung von Crash-Berichten oder Analysen zu
-      entscheiden (Opt-in Ansatz).
+    <p><strong>Crashlytics (Google Ireland Limited)</strong></p>
+    <p>Crashlytics ist ein von Google Ireland Limited bereitgestellter Dienst für die Überwachung von
+      Applikationen.
       Verarbeitete personenbezogene Daten: Crash-Daten; Geräteinformationen; Universally Unique Identifier (UUID).</p>
     <p>Verarbeitungsort: Irland - <a href="https://www.google.com/policies/privacy/">Datenschutzerklärung</a>.</p>
-    <h3 id="-inappwebview-flutter-"><strong>InAppWebView Flutter</strong></h3>
-    <p>Mit diesem drittanbieter Dienst kann die Anwendung die Website CampusNet anzeigen und so eine Weiterleitung des
-      Login garantieren. Diese Anwendung hat nichts mit der verschlüsselten Anmeldung in den Dienst zu tun und greift
-      auch nicht in den Prozess ein. Zur weiteren Nutzung des Dienstes ist es nötig Cookies mit den Session-Daten zu
-      speichern. Die Speicherung dieser Cookies liegt in der Verantwortung der Drittanbieter und können in deren <a
-        href="https://github.com/flutter/packages/tree/main/packages/webview_flutter/webview_flutter">GitHub</a>
-      nachverfolgt werden. Die Cookies können gelöscht werden durch das Abmelden aus dem Dienst.</p>
     <h2 id="die-rechte-der-nutzer">Die Rechte der Nutzer</h2>
     <p>Die Nutzer können bestimmte Rechte in Bezug auf ihre vom Anbieter verarbeiteten Daten ausüben.</p>
   </blockquote>
@@ -245,23 +233,14 @@
     personenbezogene Daten offengelegt wurden, mit, falls es welche gibt. Es sei denn, dies erweist sich als unmöglich
     oder ist mit einem unverhältnismäßigen Aufwand verbunden. Der Anbieter unterrichtet den Nutzer über diese Empfänger,
     wenn der Nutzer dies verlangt.</p>
-  <p><strong>Eigenständiges Löschen von Daten</strong><br>Durch das Abmelden aus der App durch das interne Menü werden
-    alle gespeicherten Daten automatisch gelöscht:</p>
+  <p><strong>Eigenständiges Löschen von Daten</strong><br>Es ist möglich sein Konto manuell in den Einstellungen der
+    App,
+    zu löschen. Damit werden folgende Daten gelöscht:</p>
   <ul>
-    <li>Sitzungsinformationen vom CampusNet (SessionID, Arguments)</li>
-    <li>Veranstaltungen (Datum, Zeit, Name, Raum)</li>
-    <li>Alle Prüfungsergebnisse (Kürzel, Name, Note, Status) und Gesamtdurchschnitt</li>
-    <li>Aktives Design (Lightmode/Darkmode)</li>
-    <li>Auswahl des Campus (Mülheim/Bottrop)</li>
-    <li>Zustimmung zu Firebase Crashlytics</li>
-    <li>Zeitpunkt der letzten Aktualisierung und Zustimmung zur Nachfrage der Neuanmeldung</li>
-    <li>Vollen Namen und Matrikelnummer des Nutzers</li>
-    <li>Auswahl der Startansicht des Stundenplans</li>
-    <li>Auswahl, ob Push Benachrichtigungen empfangen werden sollen</li>
-    <li>InAppWebView Cache (Cookies)</li>
+    <li>Sämtliche vorherigen aufgeführten Daten</li>
+    <li>Die Firebase Authentication Daten des Nutzers</li>
+    <li>Alle Gruppen, die der Nutzer erstellt hat</li>
   </ul>
-  <p><em>Löschen von lokal gespeicherten Daten hat <strong>keine</strong> Auswirkungen auf die Daten im CampusNet oder
-      Firebase.</em></p>
   <h2 id="weitere-informationen-ber-die-erhebung-und-verarbeitung-von-daten">Weitere Informationen über die Erhebung und
     Verarbeitung von Daten</h2>
   <p><strong>Rechtliche Maßnahmen</strong><br>Die personenbezogenen Daten des Nutzers können vom Anbieter zu Zwecken der
@@ -291,10 +270,11 @@
   <p><em>Soweit Änderungen eine auf der Einwilligung des Nutzers basierte Datennutzung betreffen, so wird der Anbieter -
       soweit erforderlich - eine neue Einwilligung einholen.</em></p>
   <h2 id="open-source-anwendung">Open-Source Anwendung</h2>
-  <p>Die Anwendung ist eine sogenannte Open-Source Anwendung. Sämtlicher Programm-Code kann öffentlich einsehbar im
-    privaten <a href="https://gitlab.janbellenberg.de/janbellenberg/studiconnect">GitLab</a> nachverfolgt werden. Bei
-    Fragen zu GitLab, dem Programm-Code oder anderen Open-Source betreffenden Themen kann die oben genannte E-Mail
-    Adresse kontaktiert werden.</p>
+  <p>Die Anwendung ist eine sogenannte Open-Source Anwendung. Sämtlicher Programm-Code kann öffentlich einsehbar in
+    <a href="https://github.com/filan-glitch/studiconnect">GitHub</a> nachverfolgt werden. Bei
+    Fragen zu GitHub, dem Programm-Code oder anderen Open-Source betreffenden Themen kann die oben genannte E-Mail
+    Adresse kontaktiert werden.
+  </p>
   <h2 id="begriffsbestimmungen-und-rechtliche-hinweise">Begriffsbestimmungen und rechtliche Hinweise</h2>
   <p><strong>Personenbezogene Daten (oder Daten)</strong><br>Alle Informationen, durch die direkt oder in Verbindung mit
     weiteren Informationen die Identität einer natürlichen Person bestimmt wird oder werden kann.</p>
