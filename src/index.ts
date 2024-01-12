@@ -6,6 +6,7 @@ import { connectElasticsearch } from "./config/elasticsearch";
 import { appendFileSync } from "fs";
 import moment from "moment";
 import websocketSetup from "./config/websocket";
+import { inspect } from "util";
 
 /**
  * Main function.
@@ -22,34 +23,37 @@ const main = async () => {
   console.log(`🚀 Server ready at http://${process.env["DOMAIN"]}:${port}/api`);
 };
 
-// console.log = function (data) {
-//   let today = moment(Date.now()).format("yyyy-MM-DD");
-//   let timestamp = moment(Date.now()).format("HH:mm:ss");
-//   appendFileSync(
-//     `${process.env.LOG_PATH}/log_${today}.txt`,
-//     `${timestamp}  ${data}\n`
-//   );
-//   process.stderr.write(`${timestamp}  ${data}\n`);
-// };
+console.log = function (data) {
+  const stringified = typeof data === "object" ? inspect(data) : data;
+  let today = moment(Date.now()).format("yyyy-MM-DD");
+  let timestamp = moment(Date.now()).format("HH:mm:ss");
+  appendFileSync(
+    `${process.env.LOG_PATH}/log_${today}.txt`,
+    `${timestamp}  ${stringified}\n`
+  );
+  process.stdout.write(`${timestamp}  ${stringified}\n`);
+};
 
 console.error = function (data) {
+  const stringified = typeof data === "object" ? inspect(data) : data;
   let today = moment(Date.now()).format("yyyy-MM-DD");
   let timestamp = moment(Date.now()).format("HH:mm:ss");
   appendFileSync(
     `${process.env.LOG_PATH}/error_${today}.txt`,
-    `ERROR ${timestamp}  ${data}\n`
+    `ERROR ${timestamp}  ${stringified}\n`
   );
-  process.stderr.write(`ERROR ${timestamp}  ${data}\n`);
+  process.stderr.write(`ERROR ${timestamp}  ${stringified}\n`);
 };
 
 console.warn = function (data) {
+  const stringified = typeof data === "object" ? inspect(data) : data;
   let today = moment(Date.now()).format("yyyy-MM-DD");
   let timestamp = moment(Date.now()).format("HH:mm:ss");
   appendFileSync(
     `${process.env.LOG_PATH}/error_${today}.txt`,
-    `WARN  ${timestamp}  ${data}\n`
+    `WARN  ${timestamp}  ${stringified}\n`
   );
-  process.stderr.write(`WARN  ${timestamp}  ${data}\n`);
+  process.stderr.write(`WARN  ${timestamp}  ${stringified}\n`);
 };
 
 console.log("Starting server...");
